@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
     products.forEach((prod, idx) => {
       totalAmount += prod.price * prod.quantity;
       container.innerHTML += `
-        <div class="col-md-4 animate__animated animate__fadeIn" style="animation-delay: ${idx * 0.1}s">
+        <div class="col-md-4 animate__animated animate__fadeIn" style="animation-delay: ${idx * .2}s">
           <div class="card h-100 border-0 shadow-sm">
             <img src="https://picsum.photos/300/200?${prod.name.replace(/\s+/g, '')}" 
                  class="card-img-top img-fluid" 
@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add event listeners for Checkout buttons
     // Add total section
     container.innerHTML += `
-      <div class="col-12 mt-4 animate__animated animate__fadeInUp" style="animation-delay: ${products.length * 0.1}s">
+      <div class="col-12 mt-4 animate__animated animate__fadeIn animate__delay-.5s">
         <div class="card border-0 shadow-sm">
           <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">

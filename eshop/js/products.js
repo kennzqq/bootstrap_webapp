@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         filteredProducts.forEach((product, idx) => {
             productsContainer.innerHTML += `
-                <div class="col-md-4 animate__animated animate__fadeIn" style="animation-delay: ${products.indexOf(product) * 0.1}s">
+                <div class="col-md-4 animate__animated animate__fadeInUp" style="animation-delay: ${products.indexOf(product) * 0.2}s">
                     <div class="card h-100 border-0 shadow-sm product-card">
                         <div class="position-relative">
                             <img src="https://picsum.photos/300/200?${product.name.replace(/\s+/g, '')}"
