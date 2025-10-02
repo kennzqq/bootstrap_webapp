@@ -11,7 +11,6 @@
 </head>
 <body>
 
-  <!-- NAVBAR -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
     <div class="container">
       <a class="navbar-brand" href="home.html">E-SHOP</a>
@@ -30,7 +29,6 @@
     </div>
   </nav>
 
-  <!-- PRODUCTS -->
   <section class="py-5" style="margin-top: 56px;">
     <div class="container">
       <div class="d-flex align-items-center justify-content-between mb-4">
@@ -41,12 +39,10 @@
         </form>
       </div>
       <div class="row g-4" id="cart-products">
-        <!-- Cart product cards will be rendered by JS -->
       </div>
     </div>
   </section>
 
-  <!-- Checkout Modal -->
   <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-0 shadow">
@@ -85,7 +81,6 @@
     </div>
   </div>
 
-  <!-- Success Modal -->
   <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
       <div class="modal-content border-0 shadow">
@@ -108,14 +103,13 @@
     </div>
   </div>
 
-  <!-- FOOTER -->
   <footer class="bg-dark text-white text-center py-3">
-    <p class="mb-0">© 2025 E-Shop | Designed for demo purposes</p>
+    <p class="mb-0">© 2025 E-Shop. Your trusted online shopping destination.</p>
   </footer>
 
   <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="shop.js"></script>
-  <script src="cart.js"></script>
+  <script src="./js/shop.js"></script>
+  <script src="./js/cart.js"></script>
 
 </body>
 </html>
