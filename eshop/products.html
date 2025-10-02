@@ -8,7 +8,7 @@
   <link rel="icon" href="img/icon.png" type="image/x-icon">
   <link rel="shortcut icon" href="img/icon.png" type="image/x-icon">
   <link href="../dist/styles.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="../node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
 </head>
 <body>
@@ -63,26 +63,38 @@
 
   <!-- Checkout Modal -->
   <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="checkoutModalLabel">Checkout</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-header bg-primary text-white">
+          <h5 class="modal-title" id="checkoutModalLabel">
+            <i class="bi bi-cart-check me-2"></i>Checkout
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body d-flex flex-column align-items-center">
-          <img id="checkoutModalImg" src="" alt="Product" class="img-fluid mb-3" style="max-width:300px;aspect-ratio:3/2;object-fit:cover;">
-          <h5 id="checkoutModalName"></h5>
-          <p id="checkoutModalPrice" class="mb-2">$0.00</p>
-          <div class="d-flex align-items-center mb-2">
-            <button type="button" class="btn btn-outline-secondary" id="checkoutModalMinus">-</button>
-            <input type="text" id="checkoutModalQty" class="form-control mx-2 text-center" value="1" style="width:60px;" readonly>
-            <button type="button" class="btn btn-outline-secondary" id="checkoutModalPlus">+</button>
+        <div class="modal-body d-flex flex-column align-items-center p-4">
+          <div class="position-relative mb-4 rounded-3 overflow-hidden shadow-sm" style="width: 100%; max-width: 300px;">
+            <img id="checkoutModalImg" src="" alt="Product" class="img-fluid w-100" style="aspect-ratio:3/2;object-fit:cover;">
           </div>
-          <p id="checkoutModalTotalPrice" class="mb-3 fw-bold">Total: $0.00</p>
+          <h4 id="checkoutModalName" class="fw-bold mb-2"></h4>
+          <p id="checkoutModalPrice" class="h5 text-primary mb-4">$0.00</p>
+          <div class="d-flex align-items-center mb-4 shadow-sm rounded-pill overflow-hidden border">
+            <button type="button" class="btn btn-light px-3" id="checkoutModalMinus">
+              <i class="bi bi-dash-lg"></i>
+            </button>
+            <input type="text" id="checkoutModalQty" class="form-control border-0 text-center shadow-none" value="1" style="width:80px;" readonly>
+            <button type="button" class="btn btn-light px-3" id="checkoutModalPlus">
+              <i class="bi bi-plus-lg"></i>
+            </button>
+          </div>
+          <p id="checkoutModalTotalPrice" class="h4 fw-bold text-primary mb-0">Total: $0.00</p>
         </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" id="checkoutModalConfirm">Confirm</button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <div class="modal-footer border-0 justify-content-center gap-2">
+          <button type="button" class="btn btn-primary px-4 py-2" id="checkoutModalConfirm">
+            <i class="bi bi-check-circle me-2"></i>Confirm Order
+          </button>
+          <button type="button" class="btn btn-light px-4 py-2" data-bs-dismiss="modal">
+            <i class="bi bi-x-circle me-2"></i>Cancel
+          </button>
         </div>
       </div>
     </div>
@@ -90,17 +102,22 @@
 
   <!-- Add to Cart Success Modal -->
   <div class="modal fade" id="addToCartModal" tabindex="-1" aria-labelledby="addToCartModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="addToCartModalLabel">Cart Status</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body text-center">
-          <h4 class="mb-3 text-success">Successfully added to cart!</h4>
-        </div>
-        <div class="modal-footer justify-content-center">
-          <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-body text-center p-4">
+          <div class="mb-3">
+            <i class="bi bi-cart-check-fill text-success" style="font-size: 3rem;"></i>
+          </div>
+          <h4 class="mb-3 fw-bold">Added to Cart!</h4>
+          <p class="text-muted mb-4">Item successfully added to your shopping cart</p>
+          <div class="d-grid gap-2">
+            <button type="button" class="btn btn-success px-4 py-2" data-bs-dismiss="modal">
+              <i class="bi bi-check2 me-2"></i>Continue Shopping
+            </button>
+            <a href="cart.html" class="btn btn-outline-primary px-4 py-2">
+              <i class="bi bi-cart me-2"></i>View Cart
+            </a>
+          </div>
         </div>
       </div>
     </div>
@@ -108,17 +125,22 @@
 
   <!-- Order Success Modal -->
   <div class="modal fade" id="orderSuccessModal" tabindex="-1" aria-labelledby="orderSuccessModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="orderSuccessModalLabel">Order Status</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body text-center">
-          <h4 class="mb-3 text-success">Successfully ordered!</h4>
-        </div>
-        <div class="modal-footer justify-content-center">
-          <button type="button" class="btn btn-success" data-bs-dismiss="modal">OK</button>
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-body text-center p-4">
+          <div class="mb-3">
+            <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
+          </div>
+          <h4 class="mb-3 fw-bold">Order Successful!</h4>
+          <p class="text-muted mb-4">Your order has been successfully placed</p>
+          <div class="d-grid gap-2">
+            <button type="button" class="btn btn-success px-4 py-2" data-bs-dismiss="modal">
+              <i class="bi bi-check2 me-2"></i>Done
+            </button>
+            <a href="products.html" class="btn btn-outline-primary px-4 py-2">
+              <i class="bi bi-shop me-2"></i>Continue Shopping
+            </a>
+          </div>
         </div>
       </div>
     </div>
