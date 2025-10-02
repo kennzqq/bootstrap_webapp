@@ -1,0 +1,49 @@
+[
+  {"name": "iPhone 15", "price": 999, "category": "Phones"},
+  {"name": "Samsung Galaxy S23", "price": 899, "category": "Phones"},
+  {"name": "Google Pixel 8", "price": 799, "category": "Phones"},
+  {"name": "OnePlus 11", "price": 699, "category": "Phones"},
+  {"name": "Xiaomi 13 Pro", "price": 749, "category": "Phones"},
+
+  {"name": "MacBook Pro 14", "price": 1999, "category": "Laptops"},
+  {"name": "Dell XPS 13", "price": 1299, "category": "Laptops"},
+  {"name": "Lenovo ThinkPad X1", "price": 1499, "category": "Laptops"},
+  {"name": "HP Spectre x360", "price": 1399, "category": "Laptops"},
+  {"name": "ASUS ROG Zephyrus G14", "price": 1599, "category": "Laptops"},
+
+  {"name": "iPad Pro 11", "price": 899, "category": "Tablets"},
+  {"name": "Samsung Galaxy Tab S9", "price": 799, "category": "Tablets"},
+  {"name": "Microsoft Surface Pro 9", "price": 999, "category": "Tablets"},
+  {"name": "Lenovo Tab P12 Pro", "price": 649, "category": "Tablets"},
+  {"name": "Amazon Fire HD 10", "price": 149, "category": "Tablets"},
+
+  {"name": "LG UltraFine 5K", "price": 1299, "category": "Monitors"},
+  {"name": "Dell UltraSharp U2723QE", "price": 679, "category": "Monitors"},
+  {"name": "ASUS ProArt Display PA278CV", "price": 449, "category": "Monitors"},
+  {"name": "Samsung Smart Monitor M8", "price": 699, "category": "Monitors"},
+  {"name": "Acer Predator XB273K", "price": 999, "category": "Monitors"},
+
+  {"name": "Canon EOS R6", "price": 2499, "category": "Cameras"},
+  {"name": "Nikon Z6 II", "price": 1999, "category": "Cameras"},
+  {"name": "Sony Alpha A7 IV", "price": 2499, "category": "Cameras"},
+  {"name": "Fujifilm X-T5", "price": 1699, "category": "Cameras"},
+  {"name": "Panasonic Lumix GH6", "price": 2199, "category": "Cameras"},
+
+  {"name": "Sony WH-1000XM5", "price": 399, "category": "Headphones"},
+  {"name": "Bose QuietComfort 45", "price": 329, "category": "Headphones"},
+  {"name": "Apple AirPods Max", "price": 549, "category": "Headphones"},
+  {"name": "Sennheiser Momentum 4", "price": 379, "category": "Headphones"},
+  {"name": "JBL Tour One M2", "price": 299, "category": "Headphones"},
+
+  {"name": "Apple Watch Series 9", "price": 399, "category": "Watches"},
+  {"name": "Samsung Galaxy Watch 6", "price": 349, "category": "Watches"},
+  {"name": "Garmin Fenix 7", "price": 699, "category": "Watches"},
+  {"name": "Fitbit Sense 2", "price": 299, "category": "Watches"},
+  {"name": "Huawei Watch GT 4", "price": 249, "category": "Watches"},
+
+  {"name": "Sonos One (Gen 2)", "price": 219, "category": "Speakers"},
+  {"name": "JBL Charge 5", "price": 179, "category": "Speakers"},
+  {"name": "Bose SoundLink Revolve II", "price": 199, "category": "Speakers"},
+  {"name": "Amazon Echo (5th Gen)", "price": 99, "category": "Speakers"},
+  {"name": "UE BOOM 3", "price": 149, "category": "Speakers"}
+]
