@@ -84,23 +84,23 @@
           <div class="col-lg-8">
             <div class="p-4 bg-white rounded-3 shadow-sm">
               <h3 class="h4 mb-4">Send us a Message</h3>
-              <form>
+              <form id="contactForm" novalidate>
                 <div class="row g-3">
                   <div class="col-md-6">
                     <label for="name" class="form-label">Your Name</label>
-                    <input type="text" class="form-control" id="name" required />
+                    <input type="text" class="form-control" id="name" name="name" />
                   </div>
                   <div class="col-md-6">
                     <label for="email" class="form-label">Email Address</label>
-                    <input type="email" class="form-control" id="email" required />
+                    <input type="email" class="form-control" id="email" name="email" />
                   </div>
                   <div class="col-12">
                     <label for="subject" class="form-label">Subject</label>
-                    <input type="text" class="form-control" id="subject" required />
+                    <input type="text" class="form-control" id="subject" name="subject" />
                   </div>
                   <div class="col-12">
                     <label for="message" class="form-label">Message</label>
-                    <textarea class="form-control" id="message" rows="5" required></textarea>
+                    <textarea class="form-control" id="message" name="message" rows="5"></textarea>
                   </div>
                   <div class="col-12">
                     <button type="submit" class="btn btn-primary">Send Message</button>
@@ -136,6 +136,33 @@
     <p class="mb-0">© 2025 E-Shop. Your trusted online shopping destination.</p>
   </footer>
 
+  <!-- Contact Success Modal -->
+  <div class="modal fade" id="messageSuccessModal" tabindex="-1" aria-labelledby="messageSuccessModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+      <div class="modal-content border-0 shadow">
+        <div class="modal-body text-center p-4">
+          <div class="mb-3">
+            <i class="bi bi-check-circle-fill text-success" style="font-size: 3rem;"></i>
+          </div>
+          <h4 class="mb-3 fw-bold">Message Sent!</h4>
+          <p class="text-muted mb-4">Thank you for reaching out. We’ll get back to you shortly.</p>
+          <div class="d-grid gap-2">
+            <button type="button" class="btn btn-success px-4 py-2" data-bs-dismiss="modal">
+              <i class="bi bi-check2 me-2"></i>Done
+            </button>
+            <a href="index.html" class="btn btn-outline-primary px-4 py-2">
+              <i class="bi bi-house-door me-2"></i>Back to Home
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
   <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+  <script src="./js/validation.js"></script>
 </body>
 </html>
