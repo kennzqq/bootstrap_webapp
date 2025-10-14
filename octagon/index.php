@@ -60,49 +60,50 @@
   </nav>
 
   <!-- HERO SECTION -->
-  <section class="min-h-[600px] pt-24 pb-12 px-6 md:px-12 flex flex-col lg:flex-row items-center justify-center max-w-7xl mx-auto gap-12">
-    <div class="lg:w-1/2 animate-fadeInUp">
-      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 animate-fadeIn">
-        <span class="block text-gray-900">INSPIRED BY</span>
-        <span class="block text-blue-600">INNOVATION</span>
-      </h1>
-
-      <p class="text-lg text-gray-700 mb-8 max-w-lg animate-fadeIn delay-700">
-        Discover the latest tech and lifestyle essentials, all handpicked to bring innovation and style into your
-        everyday life.
-      </p>
-
-      <div class="flex flex-col sm:flex-row gap-4 animate-fadeInUp delay-1000">
-        <a href="products.php"
-          class="px-8 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-all shadow-lg hover:scale-105 duration-200">
-          Shop Now
-        </a>
-        <a href="about.php"
-          class="px-8 py-3 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-all duration-200 hover:scale-105">
-          About Us
-        </a>
-      </div>
-
-      <div class="mt-12 flex items-center space-x-8 animate-fadeIn delay-1000">
-        <div class="flex flex-col">
-          <span class="text-2xl font-bold text-gray-900">100%</span>
-          <span class="text-gray-600">Authentic Products</span>
-        </div>
-        <div class="flex flex-col">
-          <span class="text-2xl font-bold text-gray-900">24/7</span>
-          <span class="text-gray-600">Customer Support</span>
-        </div>
-        <div class="flex flex-col">
-          <span class="text-2xl font-bold text-gray-900">5★</span>
-          <span class="text-gray-600">Trusted by Shoppers</span>
-        </div>
-      </div>
+  <section class="relative min-h-[600px] pt-24 pb-12 px-6 md:px-12 flex items-center justify-center overflow-hidden" style="background-color: #E3E3E3;">
+    <!-- Spline Background -->
+    <div class="absolute right-0 bottom-0 w-6/10 h-9/10 pointer-events-auto">
+      <spline-viewer url="img/bot.spline" class="w-full h-full"></spline-viewer>
     </div>
 
-    <div class="lg:w-1/2 relative w-full h-[500px] md:h-[650px] lg:h-[700px] animate-fadeIn delay-700 transition-transform hover:scale-[1.01] duration-300">
-      <div class="absolute -inset-4 bg-blue-100/30 rounded-3xl -z-10 blur-xl"></div>
-      <div class="relative rounded-3xl overflow-hidden shadow-2xl w-full h-full">
-        <spline-viewer url="img/bot.spline" class="w-full h-full"></spline-viewer>
+    <!-- Content Overlay -->
+    <div class="relative z-10 max-w-7xl mx-auto w-full pointer-events-none mt-10">
+      <div class="lg:w-1/2 animate-fadeInUp pointer-events-auto">
+        <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 animate-fadeIn">
+          <span class="block text-gray-900">INSPIRED BY</span>
+          <span class="block text-blue-600">INNOVATION</span>
+        </h1>
+
+        <p class="text-lg text-gray-700 mb-8 max-w-lg animate-fadeIn delay-700">
+          Discover the latest tech and lifestyle essentials, all handpicked to bring innovation and style into your
+          everyday life.
+        </p>
+
+        <div class="flex flex-col sm:flex-row gap-4 animate-fadeInUp delay-1000">
+          <a href="products.php"
+            class="px-8 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-all shadow-lg hover:scale-105 duration-200">
+            Shop Now
+          </a>
+          <a href="about.php"
+            class="px-8 py-3 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-all duration-200 hover:scale-105">
+            About Us
+          </a>
+        </div>
+
+        <div class="mt-12 flex items-center space-x-8 animate-fadeIn delay-1000">
+          <div class="flex flex-col">
+            <span class="text-2xl font-bold text-gray-900">100%</span>
+            <span class="text-gray-600">Authentic Products</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-2xl font-bold text-gray-900">24/7</span>
+            <span class="text-gray-600">Customer Support</span>
+          </div>
+          <div class="flex flex-col">
+            <span class="text-2xl font-bold text-gray-900">5★</span>
+            <span class="text-gray-600">Trusted by Shoppers</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>

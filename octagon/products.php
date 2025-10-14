@@ -10,7 +10,7 @@
 </head>
 <body>
   <?php
-  // Function to get unique categories from products.json
+  // Unique Categories
   function getCategories($jsonFile) {
     $json = file_get_contents($jsonFile);
     $products = json_decode($json, true);
@@ -90,7 +90,6 @@
           <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"></i>
         </div>
 
-        <!-- Category Dropdown Button -->
         <div class="relative flex items-center gap-4 flex-wrap">
           <div class="relative" id="categoryDropdownContainer">
             <button type="button" id="exploreCategoryBtn"
