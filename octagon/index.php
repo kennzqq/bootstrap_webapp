@@ -73,14 +73,14 @@
       </p>
 
       <div class="flex flex-col sm:flex-row gap-4 animate-fadeInUp delay-1000">
-        <button
+        <a href="products.php"
           class="px-8 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-800 transition-all shadow-lg hover:scale-105 duration-200">
           Shop Now
-        </button>
-        <button
+        </a>
+        <a href="about.php"
           class="px-8 py-3 border border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-all duration-200 hover:scale-105">
           About Us
-        </button>
+        </a>
       </div>
 
       <div class="mt-12 flex items-center space-x-8 animate-fadeIn delay-1000">
