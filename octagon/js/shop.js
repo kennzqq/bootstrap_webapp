@@ -1,4 +1,3 @@
-// Shopping cart functionality
 class ShopCart {
     constructor() {
         this.cartProducts = JSON.parse(localStorage.getItem('cartProducts')) || [];
@@ -9,7 +8,7 @@ class ShopCart {
             ...product,
             quantity: quantity
         };
-        this.cartProducts.unshift(cartItem); // Add to the beginning of the array
+        this.cartProducts.unshift(cartItem);
         this.saveCart();
     }
 
@@ -32,5 +31,4 @@ class ShopCart {
     }
 }
 
-// Create global instance
 const shopCart = new ShopCart();

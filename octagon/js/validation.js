@@ -50,7 +50,7 @@
       },
 
     submitHandler: function (form) {
-    // Show success modal
+    // Success modal
     const modal = new bootstrap.Modal(document.getElementById('messageSuccessModal'));
     modal.show();
 

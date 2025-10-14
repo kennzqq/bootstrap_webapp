@@ -2,32 +2,58 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>E-Shop - Contact</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Octagon - Home</title>
   <link rel="icon" href="img/icon.png" type="image/x-icon" />
-  <link href="../dist/styles.css" rel="stylesheet" />
-  <link href="../node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body>
 
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="home.html">E-SHOP</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-          <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="products.html">Products</a></li>
-          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-          <li class="nav-item"><a class="nav-link active" href="contact.html">Contact</a></li>
-          <li class="nav-item"><a class="nav-link" href="cart.html">🛒 Cart</a></li>
-        </ul>
+  <!-- NAVBAR -->
+  <nav>
+    <header
+      class="fixed inset-x-0 top-0 z-30 mx-auto w-full max-w-screen-md border border-gray-100 bg-white/80 py-3 shadow backdrop-blur-lg md:top-6 md:rounded-3xl lg:max-w-screen-lg transition-all duration-300">
+      <div class="px-4">
+        <div class="flex items-center justify-between">
+          <div class="flex shrink-0">
+            <a href="index.php" class="flex items-center space-x-2 hover:scale-105 transition-transform duration-200">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke-width="2" stroke="currentColor" class="h-7 w-7 text-blue-600 animate-pulse">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M7.86 2h8.28l5.86 5.86v8.28L16.14 22H7.86L2 16.14V7.86L7.86 2z" />
+              </svg>
+              <span class="text-lg font-semibold text-gray-900">Octagon</span>
+            </a>
+          </div>
+
+          <div class="hidden md:flex md:items-center md:justify-center md:gap-5">
+            <a class="inline-block rounded-lg px-2 py-1 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="index.php">Home</a>
+            <a class="inline-block rounded-lg px-2 py-1 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="products.php">Products</a>
+            <a class="inline-block rounded-lg px-2 py-1 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="about.php">About</a>
+            <a class="inline-block rounded-lg px-2 py-1 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="contact.php">Contact</a>
+            <a class="inline-block rounded-lg px-2 py-1 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="cart.php">🛒 Cart</a>
+          </div>
+
+          <div class="flex items-center justify-end gap-3">
+            <button id="signupBtn" type="button"
+              class="hidden items-center justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all hover:bg-gray-50 sm:inline-flex">
+              Sign up
+            </button>
+
+            <button id="loginBtn" type="button"
+              class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 transition-all">
+              Login
+            </button>
+          </div>
+        </div>
       </div>
-    </div>
+    </header>
   </nav>
 
   <main style="margin-top: 56px;">
@@ -92,7 +118,7 @@
                   </div>
                   <div class="col-md-6">
                     <label for="email" class="form-label">Email Address</label>
-                    <input type="email" class="form-control" id="email" name="email" />
+                    <input type="email" class="form-control" id="contactEmail" name="email" />
                   </div>
                   <div class="col-12">
                     <label for="subject" class="form-label">Subject</label>
@@ -164,5 +190,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
   <script src="./js/validation.js"></script>
+  <script src="./js/login.js"></script>
+  <script src="./js/createaccount.js"></script>
 </body>
 </html>

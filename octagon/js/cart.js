@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
               <h5 class="card-title animate__animated animate__fadeIn" style="animation-delay: ${(idx * 0.1) + 0.2}s">${prod.name}</h5>
               <p class="card-text mb-1">Price: $${prod.price.toFixed(2)}</p>
               <p class="card-text mb-1">Quantity: ${prod.quantity}</p>
-              <p class="card-text mb-3 fw-bold">Total: $${(prod.price * prod.quantity).toFixed(2)}</p>
+              <p class="text-primary card-text mb-3 fw-bold">Total: $${(prod.price * prod.quantity).toFixed(2)}</p>
               <button class="btn btn-primary w-100 checkout-btn d-flex align-items-center justify-content-center gap-2" data-idx="${idx}">
                 <i class="bi bi-bag-check"></i> Checkout
               </button>
@@ -42,8 +42,6 @@ document.addEventListener('DOMContentLoaded', function() {
       `;
     });
 
-    // Add event listeners for Checkout buttons
-    // Add total section
     container.innerHTML += `
       <div class="col-12 mt-4 animate__animated animate__fadeIn animate__delay-.5s">
         <div class="card border-0 shadow-sm">

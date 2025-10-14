@@ -1,6 +1,5 @@
 
 document.addEventListener('DOMContentLoaded', function() {
-        // Modal HTML injection
         const modalHtml = `
         <div class="modal fade" id="cartModal" tabindex="-1" aria-labelledby="cartModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -28,7 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>`;
         document.body.insertAdjacentHTML('beforeend', modalHtml);
 
-        // Bootstrap modal instance
         let cartModal = new bootstrap.Modal(document.getElementById('cartModal'));
 
     let products = [];
@@ -39,23 +37,21 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(response => response.json())
         .then(data => {
             products = data;
-            displayProducts(); // Show all products by default
+            displayProducts(); 
             createCategoryFilters();
         })
         .catch(error => console.error('Error loading products:', error));
 
-    // Get unique categories from products
     function getCategories() {
         return [...new Set(products.map(product => product.category))];
     }
 
-    // Create category filters
+    // Category filters
     function createCategoryFilters() {
         const categories = getCategories();
         const filterContainer = document.getElementById('category-filters');
         filterContainer.innerHTML = '';
 
-        // Add 'All' button for Bootstrap UX
         const allBtn = document.createElement('button');
         allBtn.type = 'button';
         allBtn.className = 'btn btn-primary';
@@ -84,7 +80,7 @@ document.addEventListener('DOMContentLoaded', function() {
             };
             filterContainer.appendChild(button);
         });
-    // Listen for input event on search field to refresh products when cleared
+
     const searchForm = document.querySelector('form[role="search"]');
     const searchInput = searchForm.querySelector('input[type="search"]');
     searchInput.addEventListener('input', function() {
@@ -94,7 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     }
 
-    // Filter and display products
+    // Filter products
     function displayProducts(category) {
         currentCategory = category || '';
         const filteredProducts = category
@@ -140,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const addToCartModal = new bootstrap.Modal(document.getElementById('addToCartModal'));
         const orderSuccessModal = new bootstrap.Modal(document.getElementById('orderSuccessModal'));
 
-        // Add event listeners for Add to Cart buttons
+        // Add to Cart buttons
         document.querySelectorAll('.add-to-cart-btn').forEach(btn => {
             btn.onclick = function() {
                 const prod = products[this.getAttribute('data-idx')];
@@ -155,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
             };
         });
 
-        // Add event listeners for Checkout buttons
+        // Checkout buttons
         document.querySelectorAll('.checkout-btn').forEach(btn => {
             btn.onclick = function() {
                 const prod = products[this.getAttribute('data-idx')];
@@ -170,7 +166,7 @@ document.addEventListener('DOMContentLoaded', function() {
             };
         });
 
-        // Quantity controls and price update
+        // Quantity and price update
         function updateTotalPrice() {
             const qty = parseInt(document.getElementById('checkoutModalQty').value);
             const priceText = document.getElementById('checkoutModalPrice').textContent;
@@ -197,11 +193,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const qty = parseInt(document.getElementById('checkoutModalQty').value);
             if (currentProduct) {
                 if (isCheckout) {
-                    // If it's a direct checkout, don't add to cart, just show success
                     checkoutModal.hide();
                     orderSuccessModal.show();
                 } else {
-                    // If it's add to cart, add the item and show cart success
                     shopCart.addToCart(currentProduct, qty);
                     checkoutModal.hide();
                     addToCartModal.show();
@@ -211,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-    // Handle search functionality
+    // Search functionality
     document.querySelector('form[role="search"]').addEventListener('submit', function(e) {
         e.preventDefault();
         const searchTerm = this.querySelector('input[type="search"]').value.toLowerCase();

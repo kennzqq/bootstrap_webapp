@@ -3,40 +3,58 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>E-Shop - Products</title>
+  <title>Octagon - Home</title>
   <link rel="icon" href="img/icon.png" type="image/x-icon" />
-  <link rel="shortcut icon" href="img/icon.png" type="image/x-icon" />
-  <link href="../dist/styles.css" rel="stylesheet" />
-  <link href="../node_modules/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet" />
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 <body>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="home.html">E-SHOP</a>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-bs-toggle="collapse"
-        data-bs-target=".navbar-collapse"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="home.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link active" href="products.html">Products</a></li>
-          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-          <li class="nav-item"><a class="nav-link" href="cart.html">🛒 Cart</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
+  
+  <!-- NAVBAR -->
+  <nav>
+    <header
+      class="fixed inset-x-0 top-0 z-30 mx-auto w-full max-w-screen-md border border-gray-100 bg-white/80 py-3 shadow backdrop-blur-lg md:top-6 md:rounded-3xl lg:max-w-screen-lg transition-all duration-300">
+      <div class="px-4">
+        <div class="flex items-center justify-between">
+          <div class="flex shrink-0">
+            <a href="index.php" class="flex items-center space-x-2 hover:scale-105 transition-transform duration-200">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                stroke-width="2" stroke="currentColor" class="h-7 w-7 text-blue-600 animate-pulse">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M7.86 2h8.28l5.86 5.86v8.28L16.14 22H7.86L2 16.14V7.86L7.86 2z" />
+              </svg>
+              <span class="text-lg font-semibold text-gray-900">Octagon</span>
+            </a>
+          </div>
 
+          <div class="hidden md:flex md:items-center md:justify-center md:gap-5">
+            <a class="inline-block rounded-lg px-2 py-1 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="index.php">Home</a>
+            <a class="inline-block rounded-lg px-2 py-1 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="products.php">Products</a>
+            <a class="inline-block rounded-lg px-2 py-1 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="about.php">About</a>
+            <a class="inline-block rounded-lg px-2 py-1 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="contact.php">Contact</a>
+            <a class="inline-block rounded-lg px-2 py-1 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="cart.php">🛒 Cart</a>
+          </div>
+
+          <div class="flex items-center justify-end gap-3">
+            <button id="signupBtn" type="button"
+              class="hidden items-center justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all hover:bg-gray-50 sm:inline-flex">
+              Sign up
+            </button>
+
+            <button id="loginBtn" type="button"
+              class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 transition-all">
+              Login
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
+  </nav>
   <section class="py-5" style="margin-top: 56px;">
     <div class="container">
       <div class="row mb-4">
@@ -62,18 +80,18 @@
   <div class="modal fade" id="checkoutModal" tabindex="-1" aria-labelledby="checkoutModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-0 shadow">
-        <div class="modal-header bg-primary text-white">
+        <div class="modal-header text-dark">
           <h5 class="modal-title" id="checkoutModalLabel">
             <i class="bi bi-cart-check me-2"></i>Checkout
           </h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+          <button type="button" class="btn-close btn-close-dark" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body d-flex flex-column align-items-center p-4">
           <div class="position-relative mb-4 rounded-3 overflow-hidden shadow-sm" style="width: 100%; max-width: 300px;">
             <img id="checkoutModalImg" src="" alt="Product" class="img-fluid w-100" style="aspect-ratio:3/2;object-fit:cover;" />
           </div>
           <h4 id="checkoutModalName" class="fw-bold mb-2"></h4>
-          <p id="checkoutModalPrice" class="h5 text-primary mb-4">$0.00</p>
+          <p id="checkoutModalPrice" class="mb-4">$0.00</p>
           <div class="d-flex align-items-center mb-4 shadow-sm rounded-pill overflow-hidden border">
             <button type="button" class="btn btn-light px-3" id="checkoutModalMinus">
               <i class="bi bi-dash-lg"></i>
@@ -83,10 +101,10 @@
               <i class="bi bi-plus-lg"></i>
             </button>
           </div>
-          <p id="checkoutModalTotalPrice" class="h4 fw-bold text-primary mb-0">Total: $0.00</p>
+          <p id="checkoutModalTotalPrice" class="fw-bold text-primary mb-0">Total: $0.00</p>
         </div>
         <div class="modal-footer border-0 justify-content-center gap-2">
-          <button type="button" class="btn btn-primary px-4 py-2" id="checkoutModalConfirm">
+          <button type="button" class="btn btn-success px-4 py-2" id="checkoutModalConfirm">
             <i class="bi bi-check-circle me-2"></i>Confirm Order
           </button>
           <button type="button" class="btn btn-light px-4 py-2" data-bs-dismiss="modal">
@@ -144,5 +162,9 @@
   <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="./js/shop.js"></script>
   <script src="./js/products.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+  <script src="./js/login.js"></script>
+  <script src="./js/createaccount.js"></script>
 </body>
 </html>
