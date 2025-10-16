@@ -13,7 +13,7 @@ if (!$('#createAccountModal').length) {
   $('body').append(`
     <!-- Create Account Modal -->
     <div class="modal fixed inset-0 z-50 hidden" id="createAccountModal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog flex items-center justify-center min-h-screen bg-black/40 backdrop-blur-sm transition-all duration-300">
+      <div class="modal-dialog flex items-center justify-center min-h-screen bg-black/50 transition-all duration-300">
         <div class="modal-content w-full max-w-2xl bg-white shadow-2xl rounded-2xl overflow-hidden transform transition-all duration-300 scale-95 hover:scale-100">
           <div class="modal-header flex justify-between items-center px-6 py-4 border-b border-gray-100">
             <h5 class="modal-title font-bold text-blue-600 flex items-center text-lg">
@@ -87,7 +87,7 @@ if (!$('#createAccountModal').length) {
 
     <!-- Account Creation Success Modal -->
     <div class="modal fixed inset-0 z-50 hidden" id="accountSuccessModal" tabindex="-1" aria-hidden="true">
-      <div class="modal-dialog flex items-center justify-center min-h-screen bg-black/40 backdrop-blur-sm transition-all duration-300">
+      <div class="modal-dialog flex items-center justify-center min-h-screen bg-black/50 transition-all duration-300">
         <div class="modal-content w-full max-w-sm bg-white shadow-2xl rounded-2xl overflow-hidden transform transition-all duration-300 scale-95 hover:scale-100">
           <div class="modal-body text-center p-8">
             <div class="mb-4">

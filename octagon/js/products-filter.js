@@ -1,4 +1,3 @@
-// Products Filter and Search Functionality
 let allProducts = [];
 let currentCategory = null;
 
@@ -54,8 +53,11 @@ function displayProducts(products) {
       <div class="h-[78px]">
         <div class="flex flex-col items-center w-full absolute left-0 right-0 px-2 bottom-3">
           <button type="button"
-            class="flex items-center justify-center gap-2 px-2 py-2 cursor-pointer rounded-md text-white text-sm sm:text-[15px] font-medium whitespace-nowrap border-0 outline-0 w-full bg-purple-700 hover:bg-purple-800 transition-all">
-            Add to Bag
+            class="add-to-cart-btn flex items-center justify-center gap-2 px-2 py-2 cursor-pointer rounded-md text-white text-sm sm:text-[15px] font-medium whitespace-nowrap border-0 outline-0 w-full bg-purple-700 hover:bg-purple-800 transition-all"
+            data-name="${product.name}"
+            data-price="${product.price}"
+            data-category="${product.category}">
+            Add to Cart
           </button>
           <button type="button" class="pb-0.5 pt-3 cursor-pointer text-sm sm:text-[15px] text-slate-900 font-medium whitespace-nowrap outline-0 flex items-center gap-2 hover:text-purple-700 transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" width="16px" height="16px" viewBox="0 0 66 66">
@@ -70,7 +72,6 @@ function displayProducts(products) {
   `).join('');
 }
 
-// Generate star rating HTML
 function generateStars(rating) {
   let stars = '';
   for (let i = 0; i < 5; i++) {
@@ -100,12 +101,10 @@ function searchProducts(searchTerm) {
   
   let filtered = allProducts;
   
-  // Apply category filter if active
   if (currentCategory) {
     filtered = filtered.filter(p => p.category === currentCategory);
   }
   
-  // Apply search filter
   if (term) {
     filtered = filtered.filter(p => 
       p.name.toLowerCase().includes(term) || 
@@ -118,7 +117,6 @@ function searchProducts(searchTerm) {
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
-  // Load products
   loadProducts();
   
   // Search input real-time filtering
@@ -217,4 +215,22 @@ if (e.key === 'Escape' && isDropdownOpen) {
 closeDropdownFunc();
 }
 });
+});
+// Event delegation for Add to Cart buttons
+document.addEventListener('click', function(e) {
+  if (e.target.closest('.add-to-cart-btn')) {
+    const btn = e.target.closest('.add-to-cart-btn');
+    const product = {
+      name: btn.dataset.name,
+      price: parseFloat(btn.dataset.price),
+      category: btn.dataset.category
+    };
+    
+    // Open product modal with this product data
+    if (typeof ProductModal !== 'undefined') {
+      ProductModal.open(product);
+    } else {
+      console.error('ProductModal is not loaded');
+    }
+  }
 });

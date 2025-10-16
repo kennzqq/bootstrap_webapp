@@ -53,7 +53,7 @@
             <a class="inline-block rounded-lg px-2 py-1 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
               href="contact.php">Contact</a>
             <a class="inline-block rounded-lg px-2 py-1 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
-              href="cart.php">🛒 Cart</a>
+              href="order.php">📦 Order</a>
           </div>
 
           <div class="flex items-center justify-end gap-3">
@@ -303,6 +303,7 @@
   <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
   <script src="./js/login.js"></script>
   <script src="./js/createaccount.js"></script>
+  <script src="./js/product-modal.js"></script>
   <script src="./js/products-filter.js"></script>
 </body>
 </html>

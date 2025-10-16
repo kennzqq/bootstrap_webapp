@@ -40,7 +40,7 @@
             <a class="inline-block rounded-lg px-2 py-1 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
               href="contact.php">Contact</a>
             <a class="inline-block rounded-lg px-2 py-1 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
-              href="cart.php">🛒 Cart</a>
+              href="order.php">📦 Order</a>
           </div>
 
           <div class="flex items-center justify-end gap-3">
@@ -61,12 +61,10 @@
 
   <!-- HERO SECTION -->
   <section class="relative min-h-[600px] pt-24 pb-12 px-6 md:px-12 flex items-center justify-center overflow-hidden" style="background-color: #E3E3E3;">
-    <!-- Spline Background -->
     <div class="absolute right-0 bottom-0 w-6/10 h-9/10 pointer-events-auto">
       <spline-viewer url="img/bot.spline" class="w-full h-full"></spline-viewer>
     </div>
 
-    <!-- Content Overlay -->
     <div class="relative z-10 max-w-7xl mx-auto w-full pointer-events-none mt-10">
       <div class="lg:w-1/2 animate-fadeInUp pointer-events-auto">
         <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 animate-fadeIn">
