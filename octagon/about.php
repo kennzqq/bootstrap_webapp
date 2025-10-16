@@ -41,7 +41,7 @@
           </div>
 
           <div class="flex items-center justify-end gap-3">
-            <button id="signupBtn" type="button"
+            <button id="signUpBtn" type="button"
               class="hidden items-center justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all hover:bg-gray-50 sm:inline-flex">
               Sign up
             </button>
@@ -281,9 +281,9 @@
       </div>
   </section>
 
-  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+  <script src="./js/modal-utils.js"></script>
   <script src="./js/login.js"></script>
   <script src="./js/createaccount.js"></script>
 </body>

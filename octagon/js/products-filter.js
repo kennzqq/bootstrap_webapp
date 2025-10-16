@@ -9,26 +9,26 @@ async function loadProducts() {
     displayProducts(allProducts);
   } catch (error) {
     console.error('Error loading products:', error);
-    document.getElementById('noResults').classList.remove('hidden');
+    $('#noResults').removeClass('hidden');
   }
 }
 
 // Display products
 function displayProducts(products) {
-  const productsGrid = document.getElementById('productsGrid');
-  const noResults = document.getElementById('noResults');
+  const $productsGrid = $('#productsGrid');
+  const $noResults = $('#noResults');
   
-  if (!productsGrid) return;
+  if (!$productsGrid.length) return;
   
   if (products.length === 0) {
-    productsGrid.innerHTML = '';
-    noResults.classList.remove('hidden');
+    $productsGrid.empty();
+    $noResults.removeClass('hidden');
     return;
   }
   
-  noResults.classList.add('hidden');
+  $noResults.addClass('hidden');
   
-  productsGrid.innerHTML = products.map(product => `
+  const productsHTML = products.map(product => `
     <div class="flex flex-col border border-gray-300 shadow-sm rounded-md p-1.5 transition-all relative overflow-hidden hover:shadow-lg">
       <a href="javascript:void(0)" class="block">
         <div class="w-full bg-slate-50">
@@ -70,6 +70,8 @@ function displayProducts(products) {
       </div>
     </div>
   `).join('');
+  
+  $productsGrid.html(productsHTML);
 }
 
 function generateStars(rating) {
@@ -115,122 +117,111 @@ function searchProducts(searchTerm) {
   displayProducts(filtered);
 }
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
+$(document).ready(function() {
   loadProducts();
   
-  // Search input real-time filtering
-  const searchInput = document.getElementById('searchInput');
-  if (searchInput) {
-    searchInput.addEventListener('input', (e) => {
-      searchProducts(e.target.value);
+  const $searchInput = $('#searchInput');
+  if ($searchInput.length) {
+    $searchInput.on('input', function() {
+      searchProducts($(this).val());
     });
   }
   
-  // Category selection
-  const categoryItems = document.querySelectorAll('.category-item');
-  categoryItems.forEach(item => {
-    item.addEventListener('click', (e) => {
-      e.preventDefault();
-      const category = item.dataset.category;
-      filterByCategory(category);
-      
-      // Close dropdown
-      const dropdown = document.getElementById('categoryDropdown');
-      if (dropdown) {
-        dropdown.classList.add('hidden');
-        const icon = document.getElementById('dropdownIcon');
-        if (icon) icon.style.transform = 'rotate(0deg)';
-      }
-    });
+  $('.category-item').on('click', function(e) {
+    e.preventDefault();
+    const category = $(this).data('category');
+    filterByCategory(category);
+    
+    const $dropdown = $('#categoryDropdown');
+    if ($dropdown.length) {
+      $dropdown.addClass('hidden');
+      const $icon = $('#dropdownIcon');
+      if ($icon.length) $icon.css('transform', 'rotate(0deg)');
+    }
   });
 });
 
-// Category Dropdown functionality
-document.addEventListener('DOMContentLoaded', function() {
-const exploreCategoryBtn = document.getElementById('exploreCategoryBtn');
-const categoryDropdown = document.getElementById('categoryDropdown');
-const categoryContainer = document.getElementById('categoryDropdownContainer');
-const closeDropdown = document.getElementById('closeDropdown');
-const dropdownIcon = document.getElementById('dropdownIcon');
-const categoryItems = document.querySelectorAll('.category-item');
+$(document).ready(function() {
+  const $exploreCategoryBtn = $('#exploreCategoryBtn');
+  const $categoryDropdown = $('#categoryDropdown');
+  const $categoryContainer = $('#categoryDropdownContainer');
+  const $closeDropdown = $('#closeDropdown');
+  const $dropdownIcon = $('#dropdownIcon');
+  const $categoryItems = $('.category-item');
 
-let isDropdownOpen = false;
+  let isDropdownOpen = false;
 
-function openDropdown() {
-if (!isDropdownOpen) {
-categoryDropdown.classList.remove('hidden');
-dropdownIcon.style.transform = 'rotate(180deg)';
-isDropdownOpen = true;
-}
-}
-
-function closeDropdownFunc() {
-categoryDropdown.classList.add('hidden');
-dropdownIcon.style.transform = 'rotate(0deg)';
-isDropdownOpen = false;
-}
-
-if (exploreCategoryBtn) {
-exploreCategoryBtn.addEventListener('click', (e) => {
-e.stopPropagation();
-if (isDropdownOpen) {
-closeDropdownFunc();
-} else {
-openDropdown();
-}
-});
-}
-
-if (closeDropdown) {
-closeDropdown.addEventListener('click', (e) => {
-e.stopPropagation();
-closeDropdownFunc();
-});
-}
-
-document.addEventListener('click', (e) => {
-if (categoryContainer && !categoryContainer.contains(e.target)) {
-closeDropdownFunc();
-}
-});
-
-if (categoryDropdown) {
-categoryDropdown.addEventListener('click', (e) => {
-e.stopPropagation();
-});
-}
-
-categoryItems.forEach(item => {
-item.addEventListener('click', (e) => {
-e.preventDefault();
-const category = item.dataset.category;
-console.log('Selected category:', category);
-closeDropdownFunc();
-});
-});
-
-document.addEventListener('keydown', (e) => {
-if (e.key === 'Escape' && isDropdownOpen) {
-closeDropdownFunc();
-}
-});
-});
-// Event delegation for Add to Cart buttons
-document.addEventListener('click', function(e) {
-  if (e.target.closest('.add-to-cart-btn')) {
-    const btn = e.target.closest('.add-to-cart-btn');
-    const product = {
-      name: btn.dataset.name,
-      price: parseFloat(btn.dataset.price),
-      category: btn.dataset.category
-    };
-    
-    // Open product modal with this product data
-    if (typeof ProductModal !== 'undefined') {
-      ProductModal.open(product);
-    } else {
-      console.error('ProductModal is not loaded');
+  function openDropdown() {
+    if (!isDropdownOpen) {
+      $categoryDropdown.removeClass('hidden');
+      $dropdownIcon.css('transform', 'rotate(180deg)');
+      isDropdownOpen = true;
     }
+  }
+
+  function closeDropdownFunc() {
+    $categoryDropdown.addClass('hidden');
+    $dropdownIcon.css('transform', 'rotate(0deg)');
+    isDropdownOpen = false;
+  }
+
+  if ($exploreCategoryBtn.length) {
+    $exploreCategoryBtn.on('click', function(e) {
+      e.stopPropagation();
+      if (isDropdownOpen) {
+        closeDropdownFunc();
+      } else {
+        openDropdown();
+      }
+    });
+  }
+
+  if ($closeDropdown.length) {
+    $closeDropdown.on('click', function(e) {
+      e.stopPropagation();
+      closeDropdownFunc();
+    });
+  }
+
+  $(document).on('click', function(e) {
+    if ($categoryContainer.length && !$categoryContainer[0].contains(e.target)) {
+      closeDropdownFunc();
+    }
+  });
+
+  if ($categoryDropdown.length) {
+    $categoryDropdown.on('click', function(e) {
+      e.stopPropagation();
+    });
+  }
+
+  $categoryItems.on('click', function(e) {
+    e.preventDefault();
+    const category = $(this).data('category');
+    console.log('Selected category:', category);
+    closeDropdownFunc();
+  });
+
+  $(document).on('keydown', function(e) {
+    if (e.key === 'Escape' && isDropdownOpen) {
+      closeDropdownFunc();
+    }
+  });
+});
+
+// Event delegation for Add to Cart buttons
+$(document).on('click', '.add-to-cart-btn', function() {
+  const $btn = $(this);
+  const product = {
+    name: $btn.data('name'),
+    price: parseFloat($btn.data('price')),
+    category: $btn.data('category')
+  };
+  
+  // Open product modal with this product data
+  if (typeof ProductModal !== 'undefined') {
+    ProductModal.open(product);
+  } else {
+    console.error('ProductModal is not loaded');
   }
 });

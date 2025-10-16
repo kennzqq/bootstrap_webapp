@@ -8,7 +8,6 @@
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
   <script type="module" src="https://unpkg.com/@splinetool/viewer@1.10.77/build/spline-viewer.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="css/tailwind.css" />
 </head>
 
@@ -44,7 +43,7 @@
           </div>
 
           <div class="flex items-center justify-end gap-3">
-            <button id="signupBtn" type="button"
+            <button id="signUpBtn" type="button"
               class="hidden items-center justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all hover:bg-gray-50 sm:inline-flex">
               Sign up
             </button>
@@ -60,8 +59,9 @@
   </nav>
 
   <!-- HERO SECTION -->
-  <section class="relative min-h-[600px] pt-24 pb-12 px-6 md:px-12 flex items-center justify-center overflow-hidden" style="background-color: #E3E3E3;">
-    <div class="absolute right-0 bottom-0 w-6/10 h-9/10 pointer-events-auto">
+  <section class="relative min-h-[600px] pt-24 pb-12 px-6 md:px-12 lg:flex lg:items-center lg:justify-center overflow-hidden" style="background-color: #E3E3E3;">
+    <!-- Desktop: absolute positioning on right -->
+    <div class="hidden lg:block absolute right-0 bottom-0 w-6/10 h-9/10 pointer-events-auto">
       <spline-viewer url="img/bot.spline" class="w-full h-full"></spline-viewer>
     </div>
 
@@ -102,6 +102,11 @@
             <span class="text-gray-600">Trusted by Shoppers</span>
           </div>
         </div>
+      </div>
+
+      <!-- Mobile: Spline below content -->
+      <div class="lg:hidden mt-12 w-full h-[300px] sm:h-[400px] pointer-events-auto">
+        <spline-viewer url="img/bot.spline" class="w-full h-full"></spline-viewer>
       </div>
     </div>
   </section>
@@ -328,8 +333,7 @@
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
-  <script src="./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
+  <script src="js/modal-utils.js"></script>
   <script src="js/login.js"></script>
   <script src="js/createaccount.js"></script>
   <script src="js/carousel.js"></script>

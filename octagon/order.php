@@ -56,143 +56,36 @@
     </header>
   </nav>
 
-    <section class="mt-15">
-    <div class="main-box border border-gray-200 rounded-xl pt-6 max-w-xl max-lg:mx-auto lg:max-w-full">
-      <div class="flex flex-col lg:flex-row lg:items-center justify-between px-6 pb-6 border-b border-gray-200">
-        <div class="data">
-          <p class="font-semibold text-base leading-7 text-black">
-            Order Id: <span class="text-indigo-600 font-medium">#10234987</span>
-          </p>
-          <p class="font-semibold text-base leading-7 text-black mt-4">
-            Order Payment :
-            <span class="text-gray-400 font-medium">18th March 2021</span>
-          </p>
+  <!-- ORDERS SECTION -->
+  <section class="pt-24 pb-12">
+    <div class="p-4 mx-auto lg:max-w-screen-xl">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+        <div>
+          <h1 class="text-3xl font-bold text-gray-900 mb-2">My Orders</h1>
+          <p class="text-gray-600">View and track your order history</p>
         </div>
-
         <button
           id="openCartBtn"
-          class="rounded-full py-3 px-7 font-semibold text-sm leading-7 text-white bg-indigo-600 max-lg:mt-5 shadow-sm transition-all duration-500 hover:bg-indigo-700 hover:shadow-indigo-400"
+          class="px-6 py-2.5 rounded-full cursor-pointer text-white text-sm tracking-wider font-medium border border-gray-800 outline-0 bg-gray-900 hover:bg-gray-700 active:bg-gray-800 transition-all duration-300 focus:outline-none flex items-center gap-2 w-fit"
         >
-          🛒 Cart
+          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+          <span class="relative">
+            My Cart
+            <span class="absolute -top-3 -right-5 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white transition-transform duration-300" id="cartBadge">0</span>
+          </span>
         </button>
       </div>
 
-      <!-- PRODUCT LIST -->
-      <div class="w-full px-3 min-[400px]:px-6">
-
-        <div class="flex flex-col lg:flex-row items-center py-6 border-b border-gray-200 gap-6 w-full">
-          <div class="img-box max-lg:w-full">
-            <img
-              src="https://pagedone.io/asset/uploads/1701167607.png"
-              alt="Premium Watch image"
-              class="aspect-square w-full lg:max-w-[140px] rounded-xl object-cover"
-            />
-          </div>
-
-          <div class="flex flex-row items-center w-full">
-            <div class="grid grid-cols-1 lg:grid-cols-2 w-full">
-
-              <div class="flex items-center">
-                <div>
-                  <h2 class="font-semibold text-xl leading-8 text-black mb-3">Premium Quality Dust Watch</h2>
-                  <p class="font-normal text-lg leading-8 text-gray-500 mb-3">Shop Name</p>
-
-                  <div class="flex items-center">
-                    <p class="font-medium text-base leading-7 text-black pr-4 mr-4 border-r border-gray-200">
-                      Size: <span class="text-gray-500">100 ml</span>
-                    </p>
-                    <p class="font-medium text-base leading-7 text-black">
-                      Qty: <span class="text-gray-500">2</span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="grid grid-cols-5">
-                <div class="col-span-5 lg:col-span-1 flex items-center max-lg:mt-3">
-                  <div class="flex gap-3 lg:block">
-                    <p class="font-medium text-sm leading-7 text-black">Price</p>
-                    <p class="lg:mt-4 font-medium text-sm leading-7 text-indigo-600">$100</p>
-                  </div>
-                </div>
-
-                <div class="col-span-5 lg:col-span-2 flex items-center max-lg:mt-3">
-                  <div class="flex gap-3 lg:block">
-                    <p class="font-medium text-sm leading-7 text-black">Status</p>
-                    <p
-                      class="font-medium text-sm leading-6 whitespace-nowrap py-0.5 px-3 rounded-full lg:mt-3 bg-emerald-50 text-emerald-600"
-                    >
-                      Ready for Delivery
-                    </p>
-                  </div>
-                </div>
-
-                <div class="col-span-5 lg:col-span-2 flex items-center max-lg:mt-3">
-                  <div class="flex gap-3 lg:block">
-                    <p class="font-medium text-sm whitespace-nowrap leading-6 text-black">Expected Delivery Time</p>
-                    <p class="font-medium text-base whitespace-nowrap leading-7 lg:mt-3 text-emerald-500">
-                      23rd March 2021
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
+      <div id="ordersContainer">
+        <div class="text-center py-16">
+          <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+          <p class="text-gray-500 mt-4">Loading orders...</p>
         </div>
-
-        <div class="flex flex-col lg:flex-row items-center py-6 gap-6 w-full">
-          <div class="img-box max-lg:w-full">
-            <img
-              src="https://pagedone.io/asset/uploads/1701167621.png"
-              alt="Diamond Watch image"
-              class="aspect-square w-full lg:max-w-[140px] rounded-xl object-cover"
-            />
-          </div>
-
-          <div class="flex flex-row items-center w-full">
-            <div class="grid grid-cols-1 lg:grid-cols-2 w-full">
-
-              <div class="flex items-center">
-                <div>
-                  <h2 class="font-semibold text-xl leading-8 text-black mb-3">Diamond Platinum Watch</h2>
-                  <p class="font-normal text-lg leading-8 text-gray-500 mb-3">Shop Name</p>
-
-                  <div class="flex items-center">
-                    <p class="font-medium text-base leading-7 text-black pr-4 mr-4 border-r border-gray-200">
-                      Size: <span class="text-gray-500">Regular</span>
-                    </p>
-                    <p class="font-medium text-base leading-7 text-black">
-                      Qty: <span class="text-gray-500">1</span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div class="grid grid-cols-5">
-                <div class="col-span-5 lg:col-span-1 flex items-center max-lg:mt-3">
-                  <div class="flex gap-3 lg:block">
-                    <p class="font-medium text-sm leading-7 text-black">Price</p>
-                    <p class="lg:mt-4 font-medium text-sm leading-7 text-indigo-600">$100</p>
-                  </div>
-                </div>
-
-                <div class="col-span-5 lg:col-span-2 flex items-center max-lg:mt-3">
-                  <div class="flex gap-3 lg:block">
-                    <p class="font-medium text-sm leading-7 text-black">Status</p>
-                    <p
-                      class="font-medium text-sm leading-6 py-0.5 px-3 whitespace-nowrap rounded-full lg:mt-3 bg-indigo-50 text-indigo-600"
-                    >
-                      Dispatched
-                    </p>
-                  </div>
-                </div>
-
-                <div class="col-span-5 lg:col-span-2 flex items-center max-lg:mt-3">
-                  <div class="flex gap-3 lg:block">
-                    <p class="font-medium text-sm whitespace-nowrap leading-6 text-black">Expected Delivery Time</p>
-                    <p class="font-medium text-base whitespace-nowrap leading-7 lg:mt-3 text-emerald-500">
-                      23rd March 2021
+      </div>
+    </div>
+  </section>
                     </p>
                   </div>
                 </div>
@@ -361,15 +254,39 @@
       <p class="mb-0">© 2025 E-Shop. Your trusted online shopping destination.</p>
     </footer>
 
-    <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="./js/modal-utils.js"></script>
     <script src="./js/login.js"></script>
     <script src="./js/createaccount.js"></script>
     <script src="js/cartModal.js"></script>
+    <script src="js/empty-cart-modal.js"></script>
+    <script src="js/checkout-modal.js"></script>
+    <script src="js/order-display.js"></script>
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
+      $(document).ready(function() {
         insertCartModal();
+        
+        // Update cart badge count
+        function updateCartBadge() {
+          const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+          const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
+          $('#cartBadge').text(totalItems);
+          
+          if (totalItems === 0) {
+            $('#cartBadge').addClass('scale-0');
+          } else {
+            $('#cartBadge').removeClass('scale-0').addClass('animate-bounce');
+            setTimeout(() => $('#cartBadge').removeClass('animate-bounce'), 1000);
+          }
+        }
+        
+        // Initial update
+        updateCartBadge();
+        
+        $(window).on('storage', updateCartBadge);
+        
+        $('#cartModal').on('hidden', updateCartBadge);
       });
     </script>
 </body>

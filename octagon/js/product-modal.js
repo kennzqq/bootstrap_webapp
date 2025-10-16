@@ -109,7 +109,6 @@ const ProductModal = {
     `;
   },
 
-  // Get success modal HTML (separate from product modal)
   getSuccessModalHTML: function() {
     return `
     <!-- Success Message Modal -->
@@ -153,13 +152,12 @@ const ProductModal = {
 
   // Inject modal into page
   inject: function() {
-    if (!document.getElementById('productModal')) {
-      document.body.insertAdjacentHTML('beforeend', this.getModalHTML());
+    if (!$('#productModal').length) {
+      $('body').append(this.getModalHTML());
       this.initEventListeners();
     }
-    // Inject success modal separately
-    if (!document.getElementById('addToCartSuccess')) {
-      document.body.insertAdjacentHTML('beforeend', this.getSuccessModalHTML());
+    if (!$('#addToCartSuccess').length) {
+      $('body').append(this.getSuccessModalHTML());
       this.initSuccessModalListeners();
     }
   },
@@ -168,44 +166,37 @@ const ProductModal = {
   },
 
   initEventListeners: function() {
-    const modal = document.getElementById('productModal');
-    const closeBtn = document.getElementById('closeProductModal');
+    const $modal = $('#productModal');
+    const $closeBtn = $('#closeProductModal');
     
-    // Close modal
-    closeBtn?.addEventListener('click', () => this.close());
+    $closeBtn.on('click', () => this.close());
     
-    // Close on backdrop click
-    modal?.addEventListener('click', (e) => {
+    $modal.on('click', (e) => {
       if (e.target.id === 'productModal') {
         this.close();
       }
     });
     
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+    $(document).on('keydown', (e) => {
+      if (e.key === 'Escape' && !$modal.hasClass('hidden')) {
         this.close();
       }
     });
 
     // Size selection
-    document.querySelectorAll('.size-option').forEach(btn => {
-      btn.addEventListener('click', function() {
-        document.querySelectorAll('.size-option').forEach(b => {
-          b.classList.remove('border-indigo-600', 'text-indigo-600', 'bg-indigo-50');
-        });
-        this.classList.add('border-indigo-600', 'text-indigo-600', 'bg-indigo-50');
-      });
+    $('.size-option').on('click', function() {
+      $('.size-option').removeClass('border-indigo-600 text-indigo-600 bg-indigo-50');
+      $(this).addClass('border-indigo-600 text-indigo-600 bg-indigo-50');
     });
 
     // Add to cart functionality
-    document.getElementById('addToCartBtn')?.addEventListener('click', () => {
-      const productName = document.getElementById('modalProductName').textContent;
-      const priceText = document.getElementById('modalProductPrice').textContent;
+    $('#addToCartBtn').on('click', () => {
+      const productName = $('#modalProductName').text();
+      const priceText = $('#modalProductPrice').text();
       const price = parseFloat(priceText.replace('$', ''));
-      const quantity = parseInt(document.getElementById('modalQuantity').value);
-      const selectedSize = document.querySelector('.size-option.border-indigo-600')?.dataset.size || 'Medium';
+      const quantity = parseInt($('#modalQuantity').val());
+      const selectedSize = $('.size-option.border-indigo-600').data('size') || 'Medium';
       
-      // Create cart item object
       const cartItem = {
         id: Date.now(), 
         name: productName,
@@ -235,7 +226,6 @@ const ProductModal = {
       
       console.log('Cart updated:', cart);
       
-      // Close product modal immediately
       this.close();
       
       setTimeout(() => {
@@ -244,36 +234,39 @@ const ProductModal = {
     });
   },
 
-  // Show success message
   showSuccessMessage: function(productName, quantity, size) {
-    const successDiv = document.getElementById('addToCartSuccess');
+    const $successDiv = $('#addToCartSuccess');
     
-    if (!successDiv) {
+    if (!$successDiv.length) {
       console.error('Success modal not found. Re-injecting...');
-      document.body.insertAdjacentHTML('beforeend', this.getSuccessModalHTML());
+      $('body').append(this.getSuccessModalHTML());
     }
     
-    const messageP = document.getElementById('successMessage');
-    const card = document.querySelector('.success-card');
-    const backdrop = document.querySelector('.success-backdrop');
+    const $messageP = $('#successMessage');
+    const $card = $('.success-card');
+    const $backdrop = $('.success-backdrop');
     
-    if (!card || !backdrop || !messageP) {
+    if (!$card.length || !$backdrop.length || !$messageP.length) {
       console.error('Success modal elements not found');
       return;
     }
     
-    messageP.textContent = `${quantity}x ${productName} (Size: ${size}) has been successfully added to your cart.`;
+    $messageP.text(`${quantity}x ${productName} (Size: ${size}) has been successfully added to your cart.`);
     
-    card.style.transform = 'scale(0.8) translateY(-20px)';
-    card.style.opacity = '0';
+    $card.css({
+      transform: 'scale(0.8) translateY(-20px)',
+      opacity: '0'
+    });
     
-    document.getElementById('addToCartSuccess').classList.remove('hidden');
+    $('#addToCartSuccess').removeClass('hidden');
     
     requestAnimationFrame(() => {
-      backdrop.style.opacity = '1';
-      card.style.transition = 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
-      card.style.transform = 'scale(1) translateY(0)';
-      card.style.opacity = '1';
+      $backdrop.css('opacity', '1');
+      $card.css({
+        transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        transform: 'scale(1) translateY(0)',
+        opacity: '1'
+      });
     });
     
     // Auto-close after 4 seconds if user doesn't click
@@ -281,30 +274,18 @@ const ProductModal = {
       this.hideSuccessMessage();
     }, 4000);
     
-    // Setup button handlers
-    const continueBtn = document.getElementById('continueShoppingBtn');
-    const viewCartBtn = document.getElementById('viewCartBtn');
-    
-    // Remove old listeners
-    const newContinueBtn = continueBtn.cloneNode(true);
-    const newViewCartBtn = viewCartBtn.cloneNode(true);
-    continueBtn.parentNode.replaceChild(newContinueBtn, continueBtn);
-    viewCartBtn.parentNode.replaceChild(newViewCartBtn, viewCartBtn);
-    
-    // Continue shopping
-    newContinueBtn.addEventListener('click', () => {
+    $('#continueShoppingBtn').off('click').on('click', () => {
       clearTimeout(autoCloseTimeout);
       this.hideSuccessMessage();
     });
     
     // View cart
-    newViewCartBtn.addEventListener('click', () => {
+    $('#viewCartBtn').off('click').on('click', () => {
       clearTimeout(autoCloseTimeout);
       this.hideSuccessMessage();
       
-      // Redirect to order.php or open cart modal if on same page
-      if (document.getElementById('openCartBtn')) {
-        document.getElementById('openCartBtn').click();
+      if ($('#openCartBtn').length) {
+        $('#openCartBtn').click();
       } else {
         window.location.href = 'order.php';
       }
@@ -313,60 +294,56 @@ const ProductModal = {
   
   // Hide success message
   hideSuccessMessage: function() {
-    const successDiv = document.getElementById('addToCartSuccess');
-    if (!successDiv) return;
+    const $successDiv = $('#addToCartSuccess');
+    if (!$successDiv.length) return;
     
-    const card = document.querySelector('.success-card');
-    const backdrop = document.querySelector('.success-backdrop');
+    const $card = $('.success-card');
+    const $backdrop = $('.success-backdrop');
     
-    if (!card || !backdrop) return;
+    if (!$card.length || !$backdrop.length) return;
     
-    // Animate out
-    backdrop.style.opacity = '0';
-    card.style.transition = 'all 0.3s cubic-bezier(0.6, -0.28, 0.74, 0.05)';
-    card.style.transform = 'scale(0.8) translateY(-20px)';
-    card.style.opacity = '0';
+    $backdrop.css('opacity', '0');
+    $card.css({
+      transition: 'all 0.3s cubic-bezier(0.6, -0.28, 0.74, 0.05)',
+      transform: 'scale(0.8) translateY(-20px)',
+      opacity: '0'
+    });
     
     setTimeout(() => {
-      successDiv.classList.add('hidden');
+      $successDiv.addClass('hidden');
     }, 300);
   },
 
   // Open modal with product data
   open: function(product) {
-    const modal = document.getElementById('productModal');
+    const $modal = $('#productModal');
     
     // Update modal content
-    document.getElementById('modalProductName').textContent = product.name;
-    document.getElementById('modalProductCategory').textContent = product.category;
-    document.getElementById('modalProductPrice').textContent = `$${product.price.toFixed(2)}`;
-    document.getElementById('modalMainImage').src = 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600';
-    document.getElementById('modalQuantity').value = 1;
+    $('#modalProductName').text(product.name);
+    $('#modalProductCategory').text(product.category);
+    $('#modalProductPrice').text(`$${product.price.toFixed(2)}`);
+    $('#modalMainImage').attr('src', 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600');
+    $('#modalQuantity').val(1);
     
     // Reset size selection
-    document.querySelectorAll('.size-option').forEach(b => {
-      b.classList.remove('border-indigo-600', 'text-indigo-600', 'bg-indigo-50');
-    });
+    $('.size-option').removeClass('border-indigo-600 text-indigo-600 bg-indigo-50');
     
-    // Show modal
-    modal.classList.remove('hidden');
-    document.body.style.overflow = 'hidden';
+    $modal.removeClass('hidden');
+    ModalUtils.lockScroll();
   },
 
-  // Close modal
   close: function() {
-    const modal = document.getElementById('productModal');
-    modal.classList.add('hidden');
-    document.body.style.overflow = 'auto';
+    const $modal = $('#productModal');
+    $modal.addClass('hidden');
+    ModalUtils.unlockScroll();
   },
 
-  // Change main image
   changeImage: function(src) {
-    document.getElementById('modalMainImage').src = src;
+    $('#modalMainImage').attr('src', src);
   }
 };
 
 // Auto-inject when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
+$(document).ready(function() {
   ProductModal.inject();
 });

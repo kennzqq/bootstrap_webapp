@@ -736,7 +736,7 @@
   <!-- Contact Success Modal -->
   <div class="hidden fixed inset-0 z-50 overflow-y-auto" id="messageSuccessModal" tabindex="-1" aria-labelledby="messageSuccessModalLabel" aria-hidden="true">
     <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-      <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" aria-hidden="true" onclick="document.getElementById('messageSuccessModal').classList.add('hidden')"></div>
+      <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" aria-hidden="true" onclick="document.getElementById('messageSuccessModal').classList.add('hidden'); ModalUtils.unlockScroll();"></div>
       
       <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
       
@@ -749,7 +749,7 @@
             <h4 class="text-xl font-bold text-gray-900 mb-3">Message Sent!</h4>
           <p class="text-gray-500 mb-6">Thank you for reaching out. We’ll get back to you shortly.</p>
           <div class="space-y-2">
-            <button type="button" class="w-full inline-flex justify-center items-center px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors" onclick="document.getElementById('messageSuccessModal').classList.add('hidden')">
+            <button type="button" class="w-full inline-flex justify-center items-center px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors" onclick="document.getElementById('messageSuccessModal').classList.add('hidden'); ModalUtils.unlockScroll();">
               <i class="bi bi-check2 mr-2"></i>Done
             </button>
             <a href="index.php" class="w-full inline-flex justify-center items-center px-4 py-2 bg-white text-blue-600 font-semibold border-2 border-blue-600 rounded-md hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
@@ -761,9 +761,9 @@
     </div>
   </div>
 
-  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+  <script src="./js/modal-utils.js"></script>
   <script src="./js/validation.js"></script>
   <script src="./js/contact-form.js"></script>
   <script src="./js/login.js"></script>

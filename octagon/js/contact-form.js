@@ -1,10 +1,8 @@
 $(document).ready(function() {
-    // Custom validation method for full name (at least 2 words)
     $.validator.addMethod("fullname", function(value, element) {
         return this.optional(element) || /^[a-zA-Z]+\s+[a-zA-Z\s]+$/.test(value);
     }, "Please enter your full name (first and last name)");
 
-    // Initialize form validation
     $("#contactForm").validate({
         rules: {
             fullname: {
@@ -49,7 +47,6 @@ $(document).ready(function() {
             $(element).removeClass('border-2 border-red-500');
         },
         submitHandler: function(form) {
-            // Show loading state
             const $submitButton = $(form).find('button[type="submit"]');
             const originalText = $submitButton.text();
             $submitButton.prop('disabled', true).text('Sending...');
@@ -68,35 +65,29 @@ $(document).ready(function() {
                 data: formData,
                 dataType: 'json',
                 success: function(response) {
-                    // Reset form
                     form.reset();
                     
-                    // Show success modal
                     $('#messageSuccessModal').removeClass('hidden');
+                    ModalUtils.lockScroll();
                     
-                    // Reset button
                     $submitButton.prop('disabled', false).text(originalText);
                 },
                 error: function(xhr, status, error) {
-                    // If fabform returns success even on error (some services do)
                     if (xhr.status === 200 || xhr.status === 302) {
-                        // Reset form
                         form.reset();
                         
-                        // Show success modal
                         $('#messageSuccessModal').removeClass('hidden');
+                        ModalUtils.lockScroll();
                         
-                        // Reset button
                         $submitButton.prop('disabled', false).text(originalText);
                     } else {
-                        // Show error message
                         alert('There was an error sending your message. Please try again.');
                         $submitButton.prop('disabled', false).text(originalText);
                     }
                 }
             });
 
-            return false; // Prevent default form submission
+            return false; 
         }
     });
 
@@ -104,6 +95,7 @@ $(document).ready(function() {
     $(document).on('click', function(e) {
         if ($(e.target).is('#messageSuccessModal') || $(e.target).closest('.bg-gray-500').length) {
             $('#messageSuccessModal').addClass('hidden');
+            ModalUtils.unlockScroll();
         }
     });
 

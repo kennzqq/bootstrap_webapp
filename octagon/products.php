@@ -90,10 +90,10 @@
           <i class="bi bi-search absolute left-3 top-1/2 -translate-y-1/2 text-gray-500"></i>
         </div>
 
-        <div class="relative flex items-center gap-4 flex-wrap">
+        <div class="relative flex items-center gap-2 flex-wrap">
           <div class="relative" id="categoryDropdownContainer">
             <button type="button" id="exploreCategoryBtn"
-                class="px-6 py-2.5 rounded-full cursor-pointer text-white text-sm tracking-wider font-medium border border-gray-800 outline-0 bg-gray-900 hover:bg-gray-700 active:bg-gray-800 transition-all duration-300 focus:outline-none flex items-center gap-2">
+                class="px-4 py-2 rounded-full cursor-pointer text-white text-sm tracking-wider font-medium border border-gray-800 outline-0 bg-gray-900 hover:bg-gray-700 active:bg-gray-800 transition-all duration-300 focus:outline-none flex items-center gap-2">
               Explore Categories
               <i class="bi bi-chevron-down text-xs transition-transform" id="dropdownIcon"></i>
             </button>
@@ -163,6 +163,19 @@
               </div>
             </div>
           </div>
+
+          <button
+            id="openCartBtn"
+            class="px-4 py-2 rounded-full cursor-pointer text-white text-sm tracking-wider font-medium border border-gray-800 outline-0 bg-gray-900 hover:bg-gray-700 active:bg-gray-800 transition-all duration-300 focus:outline-none flex items-center gap-2"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+            <span class="relative">
+              My Cart
+              <span class="absolute -top-3 -right-5 flex h-5 w-5 items-center justify-center rounded-full bg-red-500 text-[10px] font-bold text-white transition-transform duration-300" id="cartBadge">0</span>
+            </span>
+          </button>
         </div>
       </div>
     </div>
@@ -297,13 +310,41 @@
       </div>
   </section>
  
-  <script src="../node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="./js/shop.js"></script>
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+  <script src="./js/modal-utils.js"></script>
   <script src="./js/login.js"></script>
   <script src="./js/createaccount.js"></script>
+  <script src="./js/cartmodal.js"></script>
+  <script src="./js/empty-cart-modal.js"></script>
+  <script src="./js/checkout-modal.js"></script>
   <script src="./js/product-modal.js"></script>
   <script src="./js/products-filter.js"></script>
+  <script>
+    $(document).ready(function() {
+      insertCartModal();
+      
+      // Update cart badge count
+      function updateCartBadge() {
+        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+        const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
+        $('#cartBadge').text(totalItems);
+        
+        if (totalItems === 0) {
+          $('#cartBadge').addClass('scale-0');
+        } else {
+          $('#cartBadge').removeClass('scale-0').addClass('animate-bounce');
+          setTimeout(() => $('#cartBadge').removeClass('animate-bounce'), 1000);
+        }
+      }
+      
+      // Initial update
+      updateCartBadge();
+      
+      $(window).on('storage', updateCartBadge);
+      
+      $('#cartModal').on('hidden', updateCartBadge);
+    });
+  </script>
 </body>
 </html>

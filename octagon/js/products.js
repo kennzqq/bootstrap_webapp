@@ -91,17 +91,16 @@ export function createProductModal() {
   </div>`;
 
   // Inject into the DOM if not already added
-  if (!document.getElementById("productModal")) {
-    document.body.insertAdjacentHTML("beforeend", modalHTML);
+  if (!$('#productModal').length) {
+    $('body').append(modalHTML);
 
     // Add close modal functionality
-    document.getElementById("closeProductModal").addEventListener("click", () => {
-      document.getElementById("productModal").classList.add("hidden");
+    $('#closeProductModal').on('click', function() {
+      $('#productModal').addClass('hidden');
     });
   }
 }
 
-// Helper function for image switching
 window.changeImage = function (src) {
-  document.getElementById("mainImage").src = src;
+  $('#mainImage').attr('src', src);
 };
