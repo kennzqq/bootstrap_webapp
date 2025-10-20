@@ -10,7 +10,6 @@
 </head>
 <body>
   <?php
-  // Unique Categories
   function getCategories($jsonFile) {
     $json = file_get_contents($jsonFile);
     $products = json_decode($json, true);
@@ -58,14 +57,35 @@
 
           <div class="flex items-center justify-end gap-3">
             <button id="signupBtn" type="button"
-              class="hidden items-center justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all hover:bg-gray-50 sm:inline-flex">
+              class="hidden items-center justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all hover:bg-gray-50 sm:inline-flex cursor-pointer">
               Sign up
             </button>
 
             <button id="loginBtn" type="button"
-              class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 transition-all">
+              class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 transition-all cursor-pointer">
               Login
             </button>
+            
+            <button id="mobileMenuBtn" type="button" class="md:hidden inline-flex items-center justify-center p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-all">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        <div id="mobileMenu" class="hidden md:hidden mt-4 pb-2">
+          <div class="flex flex-col space-y-2">
+            <a class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="index.php">Home</a>
+            <a class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="products.php">Products</a>
+            <a class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="about.php">About</a>
+            <a class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="contact.php">Contact</a>
+            <a class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="order.php">📦 Order</a>
           </div>
         </div>
       </div>
@@ -312,6 +332,7 @@
  
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+  <script src="./js/form-validation-utils.js"></script>
   <script src="./js/modal-utils.js"></script>
   <script src="./js/login.js"></script>
   <script src="./js/createaccount.js"></script>
@@ -320,6 +341,7 @@
   <script src="./js/checkout-modal.js"></script>
   <script src="./js/product-modal.js"></script>
   <script src="./js/products-filter.js"></script>
+  <script src="./js/mobile-menu.js"></script>
   <script>
     $(document).ready(function() {
       insertCartModal();
@@ -338,7 +360,6 @@
         }
       }
       
-      // Initial update
       updateCartBadge();
       
       $(window).on('storage', updateCartBadge);

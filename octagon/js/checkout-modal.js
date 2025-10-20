@@ -1,15 +1,10 @@
-/**
- * Checkout Modal
- * Handles checkout form, order processing, and order creation
- */
-
 const CheckoutModal = {
   getHTML: function() {
     return `
     <div id="checkoutModal" class="hidden fixed inset-0 z-50 flex items-center justify-center">
-      <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+      <div class="checkout-backdrop absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 opacity-0"></div>
 
-      <div class="relative bg-white rounded-lg shadow-2xl max-w-7xl w-full max-h-[90vh] overflow-y-auto m-4 z-10">
+      <div class="checkout-card relative bg-white rounded-lg shadow-2xl max-w-7xl w-full max-h-[90vh] overflow-y-auto m-4 z-10 transform transition-all duration-300">
         <button id="closeCheckoutModal" class="absolute top-6 right-6 text-gray-600 hover:text-gray-800 z-20 bg-white rounded-full p-2 shadow-lg">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -199,32 +194,92 @@ function initCheckoutModal() {
     const cart = JSON.parse(localStorage.getItem('cart') || '[]');
     
     if (cart.length === 0) {
-      $('#cartModal').addClass('hidden');
-      if (typeof showEmptyCartModal === 'function') {
-        showEmptyCartModal();
+      const $cartModal = $('#cartModal');
+      const $cartBackdrop = $('.cart-backdrop');
+      const $cartCard = $('.cart-card');
+      
+      if ($cartBackdrop.length && $cartCard.length) {
+        $cartBackdrop.css('opacity', '0');
+        $cartCard.css({
+          transition: 'all 0.3s cubic-bezier(0.6, -0.28, 0.74, 0.05)',
+          transform: 'scale(0.8) translateY(-20px)',
+          opacity: '0'
+        });
+        
+        setTimeout(() => {
+          $cartModal.addClass('hidden');
+          if (typeof showEmptyCartModal === 'function') {
+            showEmptyCartModal();
+          } else {
+            alert('Your cart is empty!');
+            ModalUtils.unlockScroll();
+          }
+        }, 300);
       } else {
-        alert('Your cart is empty!');
+        $cartModal.addClass('hidden');
+        if (typeof showEmptyCartModal === 'function') {
+          showEmptyCartModal();
+        } else {
+          alert('Your cart is empty!');
+        }
       }
       return;
     }
 
-    $('#cartModal').addClass('hidden');
-    $('#checkoutModal').removeClass('hidden');
-    ModalUtils.lockScroll();
+    const $cartModal = $('#cartModal');
+    const $cartBackdrop = $('.cart-backdrop');
+    const $cartCard = $('.cart-card');
     
-    renderCheckoutItems(cart);
-    calculateCheckoutTotals();
+    if ($cartBackdrop.length && $cartCard.length) {
+      $cartBackdrop.css('opacity', '0');
+      $cartCard.css({
+        transition: 'all 0.3s cubic-bezier(0.6, -0.28, 0.74, 0.05)',
+        transform: 'scale(0.8) translateY(-20px)',
+        opacity: '0'
+      });
+      
+      setTimeout(() => {
+        $cartModal.addClass('hidden');
+        openCheckoutModal();
+      }, 300);
+    } else {
+      $cartModal.addClass('hidden');
+      openCheckoutModal();
+    }
+    
+    function openCheckoutModal() {
+      const $modal = $('#checkoutModal');
+      const $backdrop = $('.checkout-backdrop');
+      const $card = $('.checkout-card');
+      
+      $card.css({
+        transform: 'scale(0.8) translateY(-20px)',
+        opacity: '0'
+      });
+      
+      $modal.removeClass('hidden');
+      
+      requestAnimationFrame(() => {
+        $backdrop.css('opacity', '1');
+        $card.css({
+          transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+          transform: 'scale(1) translateY(0)',
+          opacity: '1'
+        });
+      });
+      
+      renderCheckoutItems(cart);
+      calculateCheckoutTotals();
+    }
   });
 
   $(document).on('click', '#closeCheckoutModal', function() {
-    $('#checkoutModal').addClass('hidden');
-    ModalUtils.unlockScroll();
+    closeCheckoutModal();
   });
 
   $(document).on('click', '#checkoutModal', function(e) {
-    if (e.target.id === 'checkoutModal') {
-      $('#checkoutModal').addClass('hidden');
-      ModalUtils.unlockScroll();
+    if ($(e.target).is('#checkoutModal') || $(e.target).hasClass('checkout-backdrop')) {
+      closeCheckoutModal();
     }
   });
 
@@ -232,15 +287,13 @@ function initCheckoutModal() {
     if (e.key === 'Escape') {
       const $modal = $('#checkoutModal');
       if ($modal.length && !$modal.hasClass('hidden')) {
-        $modal.addClass('hidden');
-        ModalUtils.unlockScroll();
+        closeCheckoutModal();
       }
     }
   });
 
   $(document).on('click', '#continueShopping', function() {
-    $('#checkoutModal').addClass('hidden');
-    ModalUtils.unlockScroll();
+    closeCheckoutModal();
   });
 
   $(document).on('change', 'input[name="pay-method"]', function() {
@@ -345,6 +398,24 @@ function initCheckoutModal() {
   });
 }
 
+function closeCheckoutModal() {
+  const $modal = $('#checkoutModal');
+  const $backdrop = $('.checkout-backdrop');
+  const $card = $('.checkout-card');
+  
+  $backdrop.css('opacity', '0');
+  $card.css({
+    transition: 'all 0.3s cubic-bezier(0.6, -0.28, 0.74, 0.05)',
+    transform: 'scale(0.8) translateY(-20px)',
+    opacity: '0'
+  });
+  
+  setTimeout(() => {
+    $modal.addClass('hidden');
+    ModalUtils.unlockScroll();
+  }, 300);
+}
+
 function renderCheckoutItems(items) {
   const $container = $('#checkoutItemsContainer');
   if (!$container.length) return;
@@ -396,7 +467,7 @@ function calculateCheckoutTotals() {
 
 function showOrderSuccess(orderId) {
   const successHTML = `
-    <div id="orderSuccessOverlay" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/50">
+    <div id="orderSuccessOverlay" class="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm">
       <div class="bg-white rounded-lg p-8 max-w-md mx-4 text-center animate-bounce-in">
         <div class="mb-4">
           <svg class="w-16 h-16 mx-auto text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">

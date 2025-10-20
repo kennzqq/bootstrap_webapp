@@ -2,8 +2,9 @@
   if (!$('#createAccountModal').length) {
     $('body').append(`
       <div class="hidden fixed inset-0 z-50" id="createAccountModal">
-        <div class="flex items-center justify-center min-h-screen bg-black/50 backdrop-blur-sm p-4">
-          <div class="w-full max-w-2xl bg-white shadow-2xl rounded-2xl overflow-hidden">
+        <div class="create-backdrop absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 opacity-0"></div>
+        <div class="flex items-center justify-center min-h-screen p-4">
+          <div class="create-card w-full max-w-2xl bg-white shadow-2xl rounded-2xl overflow-hidden transform transition-all duration-300">
             <div class="flex justify-between items-center px-6 py-4 border-b border-gray-100">
               <h5 class="font-bold text-blue-600 flex items-center text-lg">
                 <i class="bi bi-person-plus-fill mr-2 text-blue-500 text-xl"></i>Create Account
@@ -17,34 +18,34 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label for="firstName" class="block text-sm font-semibold text-gray-700 mb-1">First Name</label>
-                    <input type="text" id="firstName" name="firstName" class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Enter your first name">
+                    <input type="text" id="firstName" name="firstName" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Enter your first name">
                   </div>
                   <div>
                     <label for="lastName" class="block text-sm font-semibold text-gray-700 mb-1">Last Name</label>
-                    <input type="text" id="lastName" name="lastName" class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Enter your last name">
+                    <input type="text" id="lastName" name="lastName" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Enter your last name">
                   </div>
                   <div>
                     <label for="createAccountEmail" class="block text-sm font-semibold text-gray-700 mb-1">Email</label>
-                    <input type="email" id="createAccountEmail" name="email" class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Enter your email">
+                    <input type="email" id="createAccountEmail" name="email" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Enter your email">
                   </div>
                   <div>
                     <label for="contactNumber" class="block text-sm font-semibold text-gray-700 mb-1">Contact Number</label>
                     <div class="flex">
                       <span class="inline-flex items-center px-3 rounded-l-lg border border-gray-300 bg-gray-50 text-gray-500 text-sm">+63</span>
-                      <input type="text" id="contactNumber" name="contactNumber" class="flex-1 rounded-r-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="9123456789" maxlength="10">
+                      <input type="text" id="contactNumber" name="contactNumber" class="flex-1 rounded-r-lg border border-gray-300 px-3 py-2 text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="9123456789" maxlength="10">
                     </div>
                   </div>
                   <div class="md:col-span-2">
                     <label for="address" class="block text-sm font-semibold text-gray-700 mb-1">Address</label>
-                    <input type="text" id="address" name="address" class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Enter your address">
+                    <input type="text" id="address" name="address" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Enter your address">
                   </div>
                   <div>
                     <label for="createAccountPassword" class="block text-sm font-semibold text-gray-700 mb-1">Password</label>
-                    <input type="password" id="createAccountPassword" name="password" class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Create a password">
+                    <input type="password" id="createAccountPassword" name="password" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Create a password">
                   </div>
                   <div>
                     <label for="confirmPassword" class="block text-sm font-semibold text-gray-700 mb-1">Re-enter Password</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Re-enter your password">
+                    <input type="password" id="confirmPassword" name="confirmPassword" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Re-enter your password">
                   </div>
                 </div>
                 <div class="flex justify-center pt-4">
@@ -56,8 +57,9 @@
         </div>
       </div>
       <div class="hidden fixed inset-0 z-50" id="accountSuccessModal">
-        <div class="flex items-center justify-center min-h-screen bg-black/50 backdrop-blur-sm p-4">
-          <div class="w-full max-w-sm bg-white shadow-2xl rounded-2xl overflow-hidden">
+        <div class="account-success-backdrop absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 opacity-0"></div>
+        <div class="flex items-center justify-center min-h-screen p-4">
+          <div class="account-success-card w-full max-w-sm bg-white shadow-2xl rounded-2xl overflow-hidden transform transition-all duration-300">
             <div class="text-center p-8">
               <div class="mb-4"><i class="bi bi-check-circle-fill text-green-500 text-5xl"></i></div>
               <h4 class="mb-2 font-bold text-green-600 text-lg">Account Created!</h4>
@@ -73,25 +75,88 @@
   }
   
   window.openCreateAccountModal = function() {
-    $('#createAccountModal').removeClass('hidden');
+    const $modal = $('#createAccountModal');
+    const $backdrop = $('.create-backdrop');
+    const $card = $('.create-card');
+    
+    $card.css({
+      transform: 'scale(0.8) translateY(-20px)',
+      opacity: '0'
+    });
+    
+    $modal.removeClass('hidden');
     ModalUtils.lockScroll();
+    
+    requestAnimationFrame(() => {
+      $backdrop.css('opacity', '1');
+      $card.css({
+        transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        transform: 'scale(1) translateY(0)',
+        opacity: '1'
+      });
+    });
+    
     initCreateAccountValidation();
   };
   
   window.closeCreateAccountModal = function() {
-    $('#createAccountModal').addClass('hidden');
-    ModalUtils.unlockScroll();
-    resetCreateAccountForm();
+    const $modal = $('#createAccountModal');
+    const $backdrop = $('.create-backdrop');
+    const $card = $('.create-card');
+    
+    $backdrop.css('opacity', '0');
+    $card.css({
+      transition: 'all 0.3s cubic-bezier(0.6, -0.28, 0.74, 0.05)',
+      transform: 'scale(0.8) translateY(-20px)',
+      opacity: '0'
+    });
+    
+    setTimeout(() => {
+      $modal.addClass('hidden');
+      ModalUtils.unlockScroll();
+      resetCreateAccountForm();
+    }, 300);
   };
   
   function openAccountSuccessModal() {
-    $('#accountSuccessModal').removeClass('hidden');
+    const $modal = $('#accountSuccessModal');
+    const $backdrop = $('.account-success-backdrop');
+    const $card = $('.account-success-card');
+    
+    $card.css({
+      transform: 'scale(0.8) translateY(-20px)',
+      opacity: '0'
+    });
+    
+    $modal.removeClass('hidden');
     ModalUtils.lockScroll();
+    
+    requestAnimationFrame(() => {
+      $backdrop.css('opacity', '1');
+      $card.css({
+        transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        transform: 'scale(1) translateY(0)',
+        opacity: '1'
+      });
+    });
   }
   
   function closeAccountSuccessModal() {
-    $('#accountSuccessModal').addClass('hidden');
-    ModalUtils.unlockScroll();
+    const $modal = $('#accountSuccessModal');
+    const $backdrop = $('.account-success-backdrop');
+    const $card = $('.account-success-card');
+    
+    $backdrop.css('opacity', '0');
+    $card.css({
+      transition: 'all 0.3s cubic-bezier(0.6, -0.28, 0.74, 0.05)',
+      transform: 'scale(0.8) translateY(-20px)',
+      opacity: '0'
+    });
+    
+    setTimeout(() => {
+      $modal.addClass('hidden');
+      ModalUtils.unlockScroll();
+    }, 300);
   }
   
   function resetCreateAccountForm() {
@@ -105,12 +170,21 @@
   $(document).on('click', '.closeCreateAccountModal', closeCreateAccountModal);
   $(document).on('click', '#goToLogin', function() {
     closeAccountSuccessModal();
-    if (typeof openLoginModal === 'function') openLoginModal();
+    setTimeout(() => {
+      if (typeof openLoginModal === 'function') openLoginModal();
+    }, 300);
   });
   
-  $(document).on('click', '#createAccountModal, #accountSuccessModal', function(e) {
-    if (e.target.id === 'createAccountModal') closeCreateAccountModal();
-    if (e.target.id === 'accountSuccessModal') closeAccountSuccessModal();
+  $(document).on('click', '#createAccountModal', function(e) {
+    if ($(e.target).is('#createAccountModal') || $(e.target).hasClass('create-backdrop')) {
+      closeCreateAccountModal();
+    }
+  });
+  
+  $(document).on('click', '#accountSuccessModal', function(e) {
+    if ($(e.target).is('#accountSuccessModal') || $(e.target).hasClass('account-success-backdrop')) {
+      closeAccountSuccessModal();
+    }
   });
   
   $(document).on('keydown', function(e) {
@@ -144,7 +218,15 @@
         confirmPassword: { required: 'Please confirm password', equalTo: 'Passwords do not match' }
       },
       errorElement: 'div',
-      errorPlacement: (error, el) => error.addClass('text-red-500 text-sm mt-1').insertAfter(el),
+      errorPlacement: (error, el) => {
+        error.addClass('text-red-500 text-sm mt-1');
+        // Special handling for contact number (inside flex container)
+        if (el.attr('name') === 'contactNumber') {
+          error.insertAfter(el.parent());
+        } else {
+          error.insertAfter(el);
+        }
+      },
       highlight: el => $(el).addClass('border-red-500'),
       unhighlight: el => $(el).removeClass('border-red-500'),
       submitHandler: function (form) {

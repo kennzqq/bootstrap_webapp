@@ -67,8 +67,7 @@ $(document).ready(function() {
                 success: function(response) {
                     form.reset();
                     
-                    $('#messageSuccessModal').removeClass('hidden');
-                    ModalUtils.lockScroll();
+                    openMessageSuccessModal();
                     
                     $submitButton.prop('disabled', false).text(originalText);
                 },
@@ -76,8 +75,7 @@ $(document).ready(function() {
                     if (xhr.status === 200 || xhr.status === 302) {
                         form.reset();
                         
-                        $('#messageSuccessModal').removeClass('hidden');
-                        ModalUtils.lockScroll();
+                        openMessageSuccessModal();
                         
                         $submitButton.prop('disabled', false).text(originalText);
                     } else {
@@ -91,16 +89,63 @@ $(document).ready(function() {
         }
     });
 
-    // Close modal when clicking outside or on close button
-    $(document).on('click', function(e) {
-        if ($(e.target).is('#messageSuccessModal') || $(e.target).closest('.bg-gray-500').length) {
-            $('#messageSuccessModal').addClass('hidden');
+    function openMessageSuccessModal() {
+        const $modal = $('#messageSuccessModal');
+        const $backdrop = $('.message-success-backdrop');
+        const $card = $('.message-success-card');
+        
+        $card.css({
+            transform: 'scale(0.8) translateY(-20px)',
+            opacity: '0'
+        });
+        
+        $modal.removeClass('hidden');
+        ModalUtils.lockScroll();
+        
+        requestAnimationFrame(() => {
+            $backdrop.css('opacity', '1');
+            $card.css({
+                transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                transform: 'scale(1) translateY(0)',
+                opacity: '1'
+            });
+        });
+    }
+
+    function closeMessageSuccessModal() {
+        const $modal = $('#messageSuccessModal');
+        const $backdrop = $('.message-success-backdrop');
+        const $card = $('.message-success-card');
+        
+        $backdrop.css('opacity', '0');
+        $card.css({
+            transition: 'all 0.3s cubic-bezier(0.6, -0.28, 0.74, 0.05)',
+            transform: 'scale(0.8) translateY(-20px)',
+            opacity: '0'
+        });
+        
+        setTimeout(() => {
+            $modal.addClass('hidden');
             ModalUtils.unlockScroll();
+        }, 300);
+    }
+
+    $(document).on('click', '.closeMessageSuccess', function() {
+        closeMessageSuccessModal();
+    });
+
+    $(document).on('click', '#messageSuccessModal', function(e) {
+        if ($(e.target).is('#messageSuccessModal') || $(e.target).hasClass('message-success-backdrop')) {
+            closeMessageSuccessModal();
         }
     });
 
-    // Prevent modal content clicks from closing the modal
-    $('#messageSuccessModal .bg-white').on('click', function(e) {
-        e.stopPropagation();
+    $(document).on('keydown', function(e) {
+        if (e.key === 'Escape') {
+            const $modal = $('#messageSuccessModal');
+            if ($modal.length && !$modal.hasClass('hidden')) {
+                closeMessageSuccessModal();
+            }
+        }
     });
 });

@@ -3,10 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Octagon - Home</title>
+  <title>Octagon - Contact</title>
   <link rel="icon" href="img/icon.png" type="image/x-icon" />
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+    
+    @keyframes slideInRight {
+      from {
+        opacity: 0;
+        transform: translateX(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .animate-fadeInUp {
+      animation: fadeInUp 0.8s ease-out forwards;
+      opacity: 0;
+    }
+    
+    .animate-slideInLeft {
+      animation: slideInLeft 0.8s ease-out forwards;
+      opacity: 0;
+    }
+    
+    .animate-slideInRight {
+      animation: slideInRight 0.8s ease-out forwards;
+      opacity: 0;
+    }
+    
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
+  </style>
 </head>
 <body>
 
@@ -41,27 +95,48 @@
           </div>
 
           <div class="flex items-center justify-end gap-3">
-            <button id="signupBtn" type="button"
-              class="hidden items-center justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all hover:bg-gray-50 sm:inline-flex">
+            <button id="signUpBtn" type="button"
+              class="hidden items-center justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all hover:bg-gray-50 sm:inline-flex cursor-pointer">
               Sign up
             </button>
 
             <button id="loginBtn" type="button"
-              class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 transition-all">
+              class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 transition-all cursor-pointer">
               Login
             </button>
+            
+            <button id="mobileMenuBtn" type="button" class="md:hidden inline-flex items-center justify-center p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-all">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        <div id="mobileMenu" class="hidden md:hidden mt-4 pb-2">
+          <div class="flex flex-col space-y-2">
+            <a class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="index.php">Home</a>
+            <a class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="products.php">Products</a>
+            <a class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="about.php">About</a>
+            <a class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="contact.php">Contact</a>
+            <a class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="order.php">📦 Order</a>
           </div>
         </div>
       </div>
     </header>
   </nav>
 
-<body class="text-gray-100 px-8 py-5">
-  <form id="contactForm" action="https://fabform.io/f/xxxxx" method="post">
-
+<body class="text-gray-100 px-8 py-5 overflow-x-hidden">
+  <div class="min-h-screen">
+    <form id="contactForm" action="https://fabform.io/f/xxxxx" method="post">
       <div
-        class="max-w-screen-xl mt-24 px-8 grid gap-8 grid-cols-1 md:grid-cols-2 md:px-12 lg:px-16 xl:px-32 py-16 mx-auto bg-gray-100 text-gray-900 rounded-lg shadow-lg">
-        <div class="flex flex-col justify-between">
+        class="max-w-screen-xl mt-24 px-8 grid gap-8 grid-cols-1 md:grid-cols-2 md:px-12 lg:px-16 xl:px-32 py-16 mx-auto bg-gray-100 text-gray-900 rounded-lg shadow-lg animate-fadeInUp">
+        <div class="flex flex-col justify-between animate-slideInLeft delay-200">
           <div>
             <h2 class="text-4xl lg:text-5xl font-bold leading-tight">Lets talk about everything!</h2>
             <div class="text-gray-700 mt-8">
@@ -566,7 +641,7 @@
             </svg>
           </div>
         </div>
-        <div class="">
+        <div class="animate-slideInRight delay-300">
           <div>
             <span class="uppercase text-sm text-gray-600 font-bold">Full Name</span>
             <input id="fullname" name="fullname" class="w-full bg-gray-300 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
@@ -593,8 +668,8 @@
           </div>
         </div>
       </div>
-      </form>
-    </body>
+    </form>
+  </div>
 
   <section class="py-12 animate__animated animate__fadeIn animate__delay-2s">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -735,21 +810,20 @@
 
   <!-- Contact Success Modal -->
   <div class="hidden fixed inset-0 z-50 overflow-y-auto" id="messageSuccessModal" tabindex="-1" aria-labelledby="messageSuccessModalLabel" aria-hidden="true">
+    <div class="message-success-backdrop fixed inset-0 transition-opacity duration-300 opacity-0 bg-gray-500 bg-opacity-75" aria-hidden="true"></div>
     <div class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0">
-      <div class="fixed inset-0 transition-opacity bg-gray-500 bg-opacity-75" aria-hidden="true" onclick="document.getElementById('messageSuccessModal').classList.add('hidden'); ModalUtils.unlockScroll();"></div>
-      
       <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
       
-      <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full">
+      <div class="message-success-card inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all duration-300 sm:my-8 sm:align-middle sm:max-w-sm sm:w-full">
         <div class="bg-white px-4 pt-5 pb-4 sm:p-6">
           <div class="text-center">
             <div class="mb-4">
               <i class="bi bi-check-circle-fill text-green-500 text-5xl"></i>
             </div>
             <h4 class="text-xl font-bold text-gray-900 mb-3">Message Sent!</h4>
-          <p class="text-gray-500 mb-6">Thank you for reaching out. We’ll get back to you shortly.</p>
+          <p class="text-gray-500 mb-6">Thank you for reaching out. We'll get back to you shortly.</p>
           <div class="space-y-2">
-            <button type="button" class="w-full inline-flex justify-center items-center px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors" onclick="document.getElementById('messageSuccessModal').classList.add('hidden'); ModalUtils.unlockScroll();">
+            <button type="button" class="closeMessageSuccess w-full inline-flex justify-center items-center px-4 py-2 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors">
               <i class="bi bi-check2 mr-2"></i>Done
             </button>
             <a href="index.php" class="w-full inline-flex justify-center items-center px-4 py-2 bg-white text-blue-600 font-semibold border-2 border-blue-600 rounded-md hover:bg-blue-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors">
@@ -763,10 +837,12 @@
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+  <script src="./js/form-validation-utils.js"></script>
   <script src="./js/modal-utils.js"></script>
   <script src="./js/validation.js"></script>
   <script src="./js/contact-form.js"></script>
   <script src="./js/login.js"></script>
   <script src="./js/createaccount.js"></script>
+  <script src="./js/mobile-menu.js"></script>
 </body>
 </html>

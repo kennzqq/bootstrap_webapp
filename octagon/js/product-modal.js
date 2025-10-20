@@ -2,13 +2,10 @@ const ProductModal = {
   getModalHTML: function() {
     return `
     <div id="productModal" class="hidden fixed inset-0 z-50 overflow-y-auto">
-      <!-- Backdrop -->
-      <div class="fixed inset-0 bg-black/50 transition-opacity"></div>
+      <div class="product-modal-backdrop fixed inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 opacity-0"></div>
       
-      <!-- Modal Container -->
       <div class="flex items-center justify-center min-h-screen p-4">
-        <div class="relative bg-gray-100 rounded-2xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-y-auto animate-fadeInUp">
-          
+        <div class="product-modal-card relative bg-gray-100 rounded-2xl shadow-2xl max-w-5xl w-full max-h-[90vh] overflow-y-auto transform transition-all duration-300">
           <!-- Close Button -->
           <button id="closeProductModal" class="absolute top-4 right-4 text-gray-600 hover:text-gray-900 text-2xl font-bold z-10">&times;</button>
 
@@ -172,7 +169,7 @@ const ProductModal = {
     $closeBtn.on('click', () => this.close());
     
     $modal.on('click', (e) => {
-      if (e.target.id === 'productModal') {
+      if ($(e.target).is('#productModal') || $(e.target).hasClass('product-modal-backdrop')) {
         this.close();
       }
     });
@@ -314,28 +311,53 @@ const ProductModal = {
     }, 300);
   },
 
-  // Open modal with product data
   open: function(product) {
     const $modal = $('#productModal');
+    const $backdrop = $('.product-modal-backdrop');
+    const $card = $('.product-modal-card');
     
-    // Update modal content
     $('#modalProductName').text(product.name);
     $('#modalProductCategory').text(product.category);
     $('#modalProductPrice').text(`$${product.price.toFixed(2)}`);
     $('#modalMainImage').attr('src', 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600');
     $('#modalQuantity').val(1);
     
-    // Reset size selection
     $('.size-option').removeClass('border-indigo-600 text-indigo-600 bg-indigo-50');
+    
+    $card.css({
+      transform: 'scale(0.8) translateY(-20px)',
+      opacity: '0'
+    });
     
     $modal.removeClass('hidden');
     ModalUtils.lockScroll();
+    
+    requestAnimationFrame(() => {
+      $backdrop.css('opacity', '1');
+      $card.css({
+        transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        transform: 'scale(1) translateY(0)',
+        opacity: '1'
+      });
+    });
   },
 
   close: function() {
     const $modal = $('#productModal');
-    $modal.addClass('hidden');
-    ModalUtils.unlockScroll();
+    const $backdrop = $('.product-modal-backdrop');
+    const $card = $('.product-modal-card');
+    
+    $backdrop.css('opacity', '0');
+    $card.css({
+      transition: 'all 0.3s cubic-bezier(0.6, -0.28, 0.74, 0.05)',
+      transform: 'scale(0.8) translateY(-20px)',
+      opacity: '0'
+    });
+    
+    setTimeout(() => {
+      $modal.addClass('hidden');
+      ModalUtils.unlockScroll();
+    }, 300);
   },
 
   changeImage: function(src) {

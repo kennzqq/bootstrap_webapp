@@ -1,8 +1,3 @@
-/**
- * Order Display
- * Loads and displays order history from localStorage
- */
-
 $(document).ready(function() {
   loadOrders();
 });
@@ -41,8 +36,10 @@ function loadOrders() {
       day: 'numeric' 
     });
     
+    const delay = index * 100;
+    
     const orderHTML = `
-      <div class="main-box border border-gray-200 rounded-xl pt-6 mb-6 overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+      <div class="main-box border border-gray-200 rounded-xl pt-6 mb-6 overflow-hidden shadow-sm hover:shadow-md transition-shadow animate-fadeInUp" style="animation-delay: ${delay}ms; opacity: 0;">
         <div class="flex flex-col lg:flex-row lg:items-center justify-between px-6 pb-6 border-b border-gray-200">
           <div class="data">
             <p class="font-semibold text-base leading-7 text-black">
@@ -67,8 +64,8 @@ function loadOrders() {
         </div>
 
         <div class="w-full border-t border-gray-200 px-6 py-4 bg-gray-50">
-          <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div class="flex flex-col sm:flex-row items-center gap-4">
+          <div class="flex flex-col lg:flex-row items-center justify-between gap-4">
+            <div class="flex flex-col sm:flex-row items-center gap-4 w-full lg:w-auto">
               <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-emerald-100 text-emerald-700">
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
@@ -79,9 +76,17 @@ function loadOrders() {
                 Delivery to: <span class="font-medium text-gray-800">${order.city}, ${order.state}</span>
               </p>
             </div>
-            <button onclick="viewOrderDetails('${order.id}')" class="px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium text-sm rounded-lg transition-colors">
-              View Details
-            </button>
+            <div class="flex flex-col sm:flex-row items-center gap-3 w-full lg:w-auto">
+              <button onclick="cancelOrder('${order.id}')" class="flex outline-0 px-4 py-2 whitespace-nowrap gap-2 items-center justify-center font-medium text-sm text-red-600 bg-white border border-red-200 rounded-lg transition-all duration-300 hover:bg-red-50 hover:border-red-300">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 22 22" fill="none" stroke="currentColor">
+                  <path d="M5.5 5.5L16.5 16.5M16.5 5.5L5.5 16.5" stroke-width="1.6" stroke-linecap="round" />
+                </svg>
+                Cancel Order
+              </button>
+              <button onclick="viewOrderDetails('${order.id}')" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium text-sm rounded-lg transition-colors">
+                View Details
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -157,11 +162,10 @@ function viewOrderDetails(orderId) {
     return;
   }
   
-  // Create detailed modal
   const modalHTML = `
     <div id="orderDetailsModal" class="fixed inset-0 z-[70] flex items-center justify-center">
-      <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
-      <div class="relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full mx-4 z-10 max-h-[90vh] overflow-y-auto">
+      <div class="order-details-backdrop absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 opacity-0"></div>
+      <div class="order-details-card relative bg-white rounded-2xl shadow-2xl max-w-2xl w-full mx-4 z-10 max-h-[90vh] overflow-y-auto transform transition-all duration-300">
         <div class="sticky top-0 bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between z-10">
           <h3 class="text-xl font-bold text-gray-900">Order Details</h3>
           <button onclick="closeOrderDetails()" class="text-gray-400 hover:text-gray-600 transition-colors">
@@ -195,7 +199,13 @@ function viewOrderDetails(orderId) {
           
           <div class="border-t border-gray-200 pt-4">
             <h4 class="font-semibold text-gray-900 mb-3">Payment Summary</h4>
-            <div class="space-y-2 text-sm">
+            <div class="space-y-2 text-sm mb-4">
+              <div class="flex items-center gap-2 p-3 bg-blue-50 rounded-lg">
+                <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                </svg>
+                <span class="font-medium text-gray-900">Paid using ${getPaymentMethodLabel(order.paymentMethod)}</span>
+              </div>
               <div class="flex justify-between"><span class="text-gray-600">Subtotal:</span> <span>${order.subtotal}</span></div>
               <div class="flex justify-between"><span class="text-gray-600">Shipping:</span> <span>${order.shipping}</span></div>
               <div class="flex justify-between"><span class="text-gray-600">Tax:</span> <span>${order.tax}</span></div>
@@ -209,16 +219,204 @@ function viewOrderDetails(orderId) {
   `;
   
   $('body').append(modalHTML);
+  
+  const $modal = $('#orderDetailsModal');
+  const $backdrop = $('.order-details-backdrop');
+  const $card = $('.order-details-card');
+  
+  $card.css({
+    transform: 'scale(0.8) translateY(-20px)',
+    opacity: '0'
+  });
+  
+  requestAnimationFrame(() => {
+    $backdrop.css('opacity', '1');
+    $card.css({
+      transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+      transform: 'scale(1) translateY(0)',
+      opacity: '1'
+    });
+  });
+  
   ModalUtils.lockScroll();
 }
 
 function closeOrderDetails() {
-  $('#orderDetailsModal').remove();
-  ModalUtils.unlockScroll();
+  const $modal = $('#orderDetailsModal');
+  const $backdrop = $('.order-details-backdrop');
+  const $card = $('.order-details-card');
+  
+  $backdrop.css('opacity', '0');
+  $card.css({
+    transition: 'all 0.3s cubic-bezier(0.6, -0.28, 0.74, 0.05)',
+    transform: 'scale(0.8) translateY(-20px)',
+    opacity: '0'
+  });
+  
+  setTimeout(() => {
+    $modal.remove();
+    ModalUtils.unlockScroll();
+  }, 300);
 }
+
+$(document).on('click', '#orderDetailsModal', function(e) {
+  if ($(e.target).is('#orderDetailsModal') || $(e.target).hasClass('order-details-backdrop')) {
+    closeOrderDetails();
+  }
+});
 
 $(document).on('keydown', function(e) {
   if (e.key === 'Escape' && $('#orderDetailsModal').length) {
     closeOrderDetails();
+  }
+});
+
+function cancelOrder(orderId) {
+  // Show confirmation modal
+  const confirmHTML = `
+    <div id="cancelOrderModal" class="fixed inset-0 z-[80] flex items-center justify-center">
+      <div class="cancel-order-backdrop absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 opacity-0"></div>
+      <div class="cancel-order-card relative bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 z-10 transform transition-all duration-300">
+        <div class="p-6">
+          <div class="flex items-center justify-center w-12 h-12 mx-auto bg-red-100 rounded-full mb-4">
+            <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 text-center mb-2">Cancel Order</h3>
+          <p class="text-gray-600 text-center mb-6">Are you sure you want to cancel order <span class="font-semibold">${orderId}</span>? This action cannot be undone.</p>
+          <div class="flex gap-3">
+            <button onclick="closeCancelModal()" class="flex-1 px-4 py-2.5 bg-gray-100 hover:bg-gray-200 text-gray-800 font-medium rounded-lg transition-colors">
+              Keep Order
+            </button>
+            <button onclick="confirmCancelOrder('${orderId}')" class="flex-1 px-4 py-2.5 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors">
+              Yes, Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  $('body').append(confirmHTML);
+  
+  const $modal = $('#cancelOrderModal');
+  const $backdrop = $('.cancel-order-backdrop');
+  const $card = $('.cancel-order-card');
+  
+  $card.css({
+    transform: 'scale(0.8) translateY(-20px)',
+    opacity: '0'
+  });
+  
+  requestAnimationFrame(() => {
+    $backdrop.css('opacity', '1');
+    $card.css({
+      transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+      transform: 'scale(1) translateY(0)',
+      opacity: '1'
+    });
+  });
+  
+  ModalUtils.lockScroll();
+}
+
+function closeCancelModal() {
+  const $modal = $('#cancelOrderModal');
+  const $backdrop = $('.cancel-order-backdrop');
+  const $card = $('.cancel-order-card');
+  
+  $backdrop.css('opacity', '0');
+  $card.css({
+    transition: 'all 0.3s cubic-bezier(0.6, -0.28, 0.74, 0.05)',
+    transform: 'scale(0.8) translateY(-20px)',
+    opacity: '0'
+  });
+  
+  setTimeout(() => {
+    $modal.remove();
+    ModalUtils.unlockScroll();
+  }, 300);
+}
+
+function confirmCancelOrder(orderId) {
+  let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+  orders = orders.filter(order => order.id !== orderId);
+  localStorage.setItem('orders', JSON.stringify(orders));
+  
+  closeCancelModal();
+  
+  // Show success message
+  const successHTML = `
+    <div id="cancelSuccessModal" class="fixed inset-0 z-[80] flex items-center justify-center">
+      <div class="cancel-success-backdrop absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 opacity-0"></div>
+      <div class="cancel-success-card relative bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 z-10 transform transition-all duration-300">
+        <div class="p-6 text-center">
+          <div class="flex items-center justify-center w-12 h-12 mx-auto bg-green-100 rounded-full mb-4">
+            <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2">Order Cancelled</h3>
+          <p class="text-gray-600 mb-6">Your order has been successfully cancelled.</p>
+          <button onclick="closeSuccessModal()" class="w-full px-4 py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-colors">
+            OK
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  setTimeout(() => {
+    $('body').append(successHTML);
+    
+    const $modal = $('#cancelSuccessModal');
+    const $backdrop = $('.cancel-success-backdrop');
+    const $card = $('.cancel-success-card');
+    
+    $card.css({
+      transform: 'scale(0.8) translateY(-20px)',
+      opacity: '0'
+    });
+    
+    requestAnimationFrame(() => {
+      $backdrop.css('opacity', '1');
+      $card.css({
+        transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        transform: 'scale(1) translateY(0)',
+        opacity: '1'
+      });
+    });
+  }, 300);
+}
+
+function closeSuccessModal() {
+  const $modal = $('#cancelSuccessModal');
+  const $backdrop = $('.cancel-success-backdrop');
+  const $card = $('.cancel-success-card');
+  
+  $backdrop.css('opacity', '0');
+  $card.css({
+    transition: 'all 0.3s cubic-bezier(0.6, -0.28, 0.74, 0.05)',
+    transform: 'scale(0.8) translateY(-20px)',
+    opacity: '0'
+  });
+  
+  setTimeout(() => {
+    $modal.remove();
+    ModalUtils.unlockScroll();
+    loadOrders(); // Reload orders to reflect the cancellation
+  }, 300);
+}
+
+$(document).on('click', '#cancelOrderModal', function(e) {
+  if ($(e.target).is('#cancelOrderModal') || $(e.target).hasClass('cancel-order-backdrop')) {
+    closeCancelModal();
+  }
+});
+
+$(document).on('click', '#cancelSuccessModal', function(e) {
+  if ($(e.target).is('#cancelSuccessModal') || $(e.target).hasClass('cancel-success-backdrop')) {
+    closeSuccessModal();
   }
 });

@@ -1,15 +1,10 @@
-/**
- * Cart Modal
- * Manages shopping cart display and interactions
- */
-
 const CartModal = {
   getHTML: function() {
     return `
     <div id="cartModal" class="hidden fixed inset-0 z-50 flex items-center justify-center">
-      <div class="absolute inset-0 bg-black/50"></div>
+      <div class="cart-backdrop absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 opacity-0"></div>
 
-      <div class="relative bg-white rounded-lg shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto m-4 z-10">
+      <div class="cart-card relative bg-white rounded-lg shadow-2xl max-w-6xl w-full max-h-[90vh] overflow-y-auto m-4 z-10 transform transition-all duration-300">
         <button id="closeCartModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 z-10">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -129,20 +124,37 @@ function initCartModal() {
       `);
     }
     
-    $('#cartModal').removeClass('hidden');
+    const $modal = $('#cartModal');
+    const $backdrop = $('.cart-backdrop');
+    const $card = $('.cart-card');
+    
+    $card.css({
+      transform: 'scale(0.8) translateY(-20px)',
+      opacity: '0'
+    });
+    
+    $modal.removeClass('hidden');
     ModalUtils.lockScroll();
+    
+    requestAnimationFrame(() => {
+      $backdrop.css('opacity', '1');
+      $card.css({
+        transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        transform: 'scale(1) translateY(0)',
+        opacity: '1'
+      });
+    });
+    
     updateCartTotal();
   });
 
   $('#closeCartModal').on('click', function() {
-    $('#cartModal').addClass('hidden');
-    ModalUtils.unlockScroll();
+    closeCartModal();
   });
 
   $('#cartModal').on('click', function(e) {
-    if (e.target.id === 'cartModal') {
-      $('#cartModal').addClass('hidden');
-      ModalUtils.unlockScroll();
+    if ($(e.target).is('#cartModal') || $(e.target).hasClass('cart-backdrop')) {
+      closeCartModal();
     }
   });
 
@@ -150,15 +162,13 @@ function initCartModal() {
     if (e.key === 'Escape') {
       const $modal = $('#cartModal');
       if ($modal.length && !$modal.hasClass('hidden')) {
-        $modal.addClass('hidden');
-        ModalUtils.unlockScroll();
+        closeCartModal();
       }
     }
   });
 
   $('#cartContinueShopping').on('click', function() {
-    $('#cartModal').addClass('hidden');
-    ModalUtils.unlockScroll();
+    closeCartModal();
   });
 
   // Event delegation for cart item interactions
@@ -243,6 +253,24 @@ function initCartModal() {
   });
 }
 
+function closeCartModal() {
+  const $modal = $('#cartModal');
+  const $backdrop = $('.cart-backdrop');
+  const $card = $('.cart-card');
+  
+  $backdrop.css('opacity', '0');
+  $card.css({
+    transition: 'all 0.3s cubic-bezier(0.6, -0.28, 0.74, 0.05)',
+    transform: 'scale(0.8) translateY(-20px)',
+    opacity: '0'
+  });
+  
+  setTimeout(() => {
+    $modal.addClass('hidden');
+    ModalUtils.unlockScroll();
+  }, 300);
+}
+
 function renderCartItems(items) {
   const $container = $('#cartItemsContainer');
   if (!$container.length) return;
@@ -261,6 +289,11 @@ function renderCartItems(items) {
         </button>
       </div>
     `);
+    
+    $('#emptyCartContinue').on('click', function() {
+      closeCartModal();
+    });
+    return;
   } else {
     items.forEach(item => {
       $container.append(CartModal.getCartItemHTML(item));

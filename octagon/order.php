@@ -3,13 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Octagon - Home</title>
+  <title>Octagon - Orders</title>
   <link rel="icon" href="img/icon.png" type="image/x-icon" />
   <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <style>
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    .animate-fadeInUp {
+      animation: fadeInUp 0.8s ease-out forwards;
+      opacity: 0;
+    }
+    
+    .animate-slideInLeft {
+      animation: slideInLeft 0.8s ease-out forwards;
+      opacity: 0;
+    }
+    
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    
+    #ordersContainer .main-box {
+      will-change: transform, opacity;
+    }
+  </style>
 </head>
 
-<body>
+<body class="overflow-x-hidden">
   <!-- NAVBAR -->
   <nav>
     <header
@@ -41,15 +81,36 @@
           </div>
 
           <div class="flex items-center justify-end gap-3">
-            <button id="signupBtn" type="button"
-              class="hidden items-center justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all hover:bg-gray-50 sm:inline-flex">
+            <button id="signUpBtn" type="button"
+              class="hidden items-center justify-center rounded-xl bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 transition-all hover:bg-gray-50 sm:inline-flex cursor-pointer">
               Sign up
             </button>
 
             <button id="loginBtn" type="button"
-              class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 transition-all">
+              class="inline-flex items-center justify-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 transition-all cursor-pointer">
               Login
             </button>
+            
+            <button id="mobileMenuBtn" type="button" class="md:hidden inline-flex items-center justify-center p-2 rounded-lg text-gray-700 hover:bg-gray-100 transition-all">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+              </svg>
+            </button>
+          </div>
+        </div>
+        
+        <div id="mobileMenu" class="hidden md:hidden mt-4 pb-2">
+          <div class="flex flex-col space-y-2">
+            <a class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="index.php">Home</a>
+            <a class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="products.php">Products</a>
+            <a class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="about.php">About</a>
+            <a class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="contact.php">Contact</a>
+            <a class="block rounded-lg px-3 py-2 text-sm font-medium text-gray-900 hover:bg-gray-100 transition-all duration-200"
+              href="order.php">📦 Order</a>
           </div>
         </div>
       </div>
@@ -59,14 +120,14 @@
   <!-- ORDERS SECTION -->
   <section class="pt-24 pb-12">
     <div class="p-4 mx-auto lg:max-w-screen-xl">
-      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-        <div>
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8 animate-fadeInUp">
+        <div class="animate-slideInLeft">
           <h1 class="text-3xl font-bold text-gray-900 mb-2">My Orders</h1>
           <p class="text-gray-600">View and track your order history</p>
         </div>
         <button
           id="openCartBtn"
-          class="px-6 py-2.5 rounded-full cursor-pointer text-white text-sm tracking-wider font-medium border border-gray-800 outline-0 bg-gray-900 hover:bg-gray-700 active:bg-gray-800 transition-all duration-300 focus:outline-none flex items-center gap-2 w-fit"
+          class="px-6 py-2.5 rounded-full cursor-pointer text-white text-sm tracking-wider font-medium border border-gray-800 outline-0 bg-gray-900 hover:bg-gray-700 active:bg-gray-800 transition-all duration-300 focus:outline-none flex items-center gap-2 w-fit animate-fadeInUp delay-100"
         >
           <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
@@ -78,7 +139,7 @@
         </button>
       </div>
 
-      <div id="ordersContainer">
+      <div id="ordersContainer" class="animate-fadeInUp delay-200">
         <div class="text-center py-16">
           <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
           <p class="text-gray-500 mt-4">Loading orders...</p>
@@ -86,49 +147,8 @@
       </div>
     </div>
   </section>
-                    </p>
-                  </div>
-                </div>
-              </div>
 
-            </div>
-          </div>
-        </div>
-
-      </div>
-
-      <div class="w-full border-t border-gray-200 px-6 flex flex-col lg:flex-row items-center justify-between">
-        <div class="flex flex-col sm:flex-row items-center max-lg:border-b border-gray-200">
-          <button
-            class="flex outline-0 py-6 sm:pr-6 sm:border-r border-gray-200 whitespace-nowrap gap-2 items-center justify-center font-semibold group text-lg text-black bg-white transition-all duration-500 hover:text-indigo-600"
-          >
-            <svg
-              class="stroke-black transition-all duration-500 group-hover:stroke-indigo-600"
-              xmlns="http://www.w3.org/2000/svg"
-              width="22"
-              height="22"
-              viewBox="0 0 22 22"
-              fill="none"
-            >
-              <path d="M5.5 5.5L16.5 16.5M16.5 5.5L5.5 16.5" stroke-width="1.6" stroke-linecap="round" />
-            </svg>
-            Cancel Order
-          </button>
-          <p class="font-medium text-lg text-gray-900 pl-6 py-3 max-lg:text-center">
-            Paid using Credit Card <span class="text-gray-500">ending with 8822</span>
-          </p>
-        </div>
-
-        <p class="font-semibold text-lg text-black py-6">
-          Total Price: <span class="text-indigo-600">$200.00</span>
-        </p>
-      </div>
-
-    </div>
-  </section>
-
-
-      <!-- FOOTER SECTION -->
+  <!-- FOOTER SECTION -->
   <section class="py-10 bg-gray-50 sm:pt-16 lg:pt-24">
       <div class="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
           <div class="grid grid-cols-2 md:col-span-3 lg:grid-cols-6 gap-y-16 gap-x-12">
@@ -256,12 +276,14 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="./js/form-validation-utils.js"></script>
     <script src="./js/modal-utils.js"></script>
     <script src="./js/login.js"></script>
     <script src="./js/createaccount.js"></script>
     <script src="js/cartModal.js"></script>
     <script src="js/empty-cart-modal.js"></script>
     <script src="js/checkout-modal.js"></script>
+    <script src="./js/mobile-menu.js"></script>
     <script src="js/order-display.js"></script>
     <script>
       $(document).ready(function() {

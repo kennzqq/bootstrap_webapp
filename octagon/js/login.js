@@ -1,14 +1,10 @@
-﻿/**
- * Login Modal
- * Handles user authentication and account creation
- */
-
-$(document).ready(function () {
+﻿$(document).ready(function () {
   if (!$('#loginModal').length) {
     $('body').append(`
       <div class="hidden fixed inset-0 z-50" id="loginModal">
-        <div class="flex items-center justify-center min-h-screen bg-black/50 backdrop-blur-sm p-4">
-          <div class="w-full max-w-md bg-white shadow-2xl rounded-2xl overflow-hidden">
+        <div class="login-backdrop absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 opacity-0"></div>
+        <div class="flex items-center justify-center min-h-screen p-4">
+          <div class="login-card w-full max-w-md bg-white shadow-2xl rounded-2xl overflow-hidden transform transition-all duration-300">
             <div class="flex justify-between items-center px-6 py-4 border-b border-gray-100">
               <h5 class="font-bold text-blue-600 flex items-center text-lg">
                 <i class="bi bi-person-circle mr-2 text-blue-500 text-xl"></i>Login
@@ -21,11 +17,11 @@ $(document).ready(function () {
               <form id="loginForm" novalidate class="space-y-4">
                 <div>
                   <label for="loginEmail" class="block text-sm font-semibold text-gray-700 mb-1">Email</label>
-                  <input type="email" id="loginEmail" name="email" class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Enter your email">
+                  <input type="email" id="loginEmail" name="email" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Enter your email">
                 </div>
                 <div>
                   <label for="loginPassword" class="block text-sm font-semibold text-gray-700 mb-1">Password</label>
-                  <input type="password" id="loginPassword" name="password" class="w-full rounded-lg border border-gray-300 px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Enter your password">
+                  <input type="password" id="loginPassword" name="password" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-gray-900 bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition" placeholder="Enter your password">
                 </div>
                 <div class="text-right">
                   <a href="#" class="text-sm text-blue-600 hover:underline hover:text-blue-500 transition">Forgot password?</a>
@@ -43,8 +39,9 @@ $(document).ready(function () {
         </div>
       </div>
       <div class="hidden fixed inset-0 z-50" id="loginSuccessModal">
-        <div class="flex items-center justify-center min-h-screen bg-black/50 backdrop-blur-sm p-4">
-          <div class="w-full max-w-sm bg-white shadow-2xl rounded-2xl overflow-hidden">
+        <div class="success-backdrop absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 opacity-0"></div>
+        <div class="flex items-center justify-center min-h-screen p-4">
+          <div class="success-card w-full max-w-sm bg-white shadow-2xl rounded-2xl overflow-hidden transform transition-all duration-300">
             <div class="text-center p-8">
               <div class="mb-4"><i class="bi bi-check-circle-fill text-green-500 text-5xl"></i></div>
               <h4 class="mb-2 font-bold text-green-600 text-lg">Login Successful!</h4>
@@ -60,25 +57,88 @@ $(document).ready(function () {
   }
   
   window.openLoginModal = function() {
-    $('#loginModal').removeClass('hidden');
+    const $modal = $('#loginModal');
+    const $backdrop = $('.login-backdrop');
+    const $card = $('.login-card');
+    
+    $card.css({
+      transform: 'scale(0.8) translateY(-20px)',
+      opacity: '0'
+    });
+    
+    $modal.removeClass('hidden');
     ModalUtils.lockScroll();
+    
+    requestAnimationFrame(() => {
+      $backdrop.css('opacity', '1');
+      $card.css({
+        transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        transform: 'scale(1) translateY(0)',
+        opacity: '1'
+      });
+    });
+    
     initLoginValidation();
   };
   
   function closeLoginModal() {
-    $('#loginModal').addClass('hidden');
-    ModalUtils.unlockScroll();
-    resetLoginForm();
+    const $modal = $('#loginModal');
+    const $backdrop = $('.login-backdrop');
+    const $card = $('.login-card');
+    
+    $backdrop.css('opacity', '0');
+    $card.css({
+      transition: 'all 0.3s cubic-bezier(0.6, -0.28, 0.74, 0.05)',
+      transform: 'scale(0.8) translateY(-20px)',
+      opacity: '0'
+    });
+    
+    setTimeout(() => {
+      $modal.addClass('hidden');
+      ModalUtils.unlockScroll();
+      resetLoginForm();
+    }, 300);
   }
   
   function openSuccessModal() {
-    $('#loginSuccessModal').removeClass('hidden');
+    const $modal = $('#loginSuccessModal');
+    const $backdrop = $('#loginSuccessModal .success-backdrop');
+    const $card = $('#loginSuccessModal .success-card');
+    
+    $card.css({
+      transform: 'scale(0.8) translateY(-20px)',
+      opacity: '0'
+    });
+    
+    $modal.removeClass('hidden');
     ModalUtils.lockScroll();
+    
+    requestAnimationFrame(() => {
+      $backdrop.css('opacity', '1');
+      $card.css({
+        transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+        transform: 'scale(1) translateY(0)',
+        opacity: '1'
+      });
+    });
   }
   
   function closeSuccessModal() {
-    $('#loginSuccessModal').addClass('hidden');
-    ModalUtils.unlockScroll();
+    const $modal = $('#loginSuccessModal');
+    const $backdrop = $('#loginSuccessModal .success-backdrop');
+    const $card = $('#loginSuccessModal .success-card');
+    
+    $backdrop.css('opacity', '0');
+    $card.css({
+      transition: 'all 0.3s cubic-bezier(0.6, -0.28, 0.74, 0.05)',
+      transform: 'scale(0.8) translateY(-20px)',
+      opacity: '0'
+    });
+    
+    setTimeout(() => {
+      $modal.addClass('hidden');
+      ModalUtils.unlockScroll();
+    }, 300);
   }
   
   function resetLoginForm() {
@@ -97,9 +157,16 @@ $(document).ready(function () {
   $(document).on('click', '.closeLoginModal', closeLoginModal);
   $(document).on('click', '.closeSuccessModal', closeSuccessModal);
   
-  $(document).on('click', '#loginModal, #loginSuccessModal', function(e) {
-    if (e.target.id === 'loginModal') closeLoginModal();
-    if (e.target.id === 'loginSuccessModal') closeSuccessModal();
+  $(document).on('click', '#loginModal', function(e) {
+    if ($(e.target).is('#loginModal') || $(e.target).hasClass('login-backdrop')) {
+      closeLoginModal();
+    }
+  });
+  
+  $(document).on('click', '#loginSuccessModal', function(e) {
+    if ($(e.target).is('#loginSuccessModal') || $(e.target).hasClass('success-backdrop')) {
+      closeSuccessModal();
+    }
   });
   
   $(document).on('keydown', function(e) {

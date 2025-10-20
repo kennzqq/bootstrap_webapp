@@ -1,15 +1,10 @@
-/**
- * Empty Cart Modal
- * Displayed when user attempts to checkout with an empty cart
- */
-
 const EmptyCartModal = {
   getHTML: function() {
     return `
     <div id="emptyCartModal" class="hidden fixed inset-0 z-[60] flex items-center justify-center">
-      <div class="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+      <div class="empty-cart-backdrop absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300 opacity-0"></div>
 
-      <div class="relative bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 z-10 overflow-hidden animate-scale-in">
+      <div class="empty-cart-card relative bg-white rounded-2xl shadow-2xl max-w-md w-full mx-4 z-10 overflow-hidden transform transition-all duration-300">
         <button id="closeEmptyCartModal" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 z-10 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -39,22 +34,6 @@ const EmptyCartModal = {
         </div>
       </div>
     </div>
-
-    <style>
-      @keyframes scale-in {
-        0% {
-          opacity: 0;
-          transform: scale(0.9);
-        }
-        100% {
-          opacity: 1;
-          transform: scale(1);
-        }
-      }
-      .animate-scale-in {
-        animation: scale-in 0.2s ease-out;
-      }
-    </style>
     `;
   }
 };
@@ -68,20 +47,19 @@ function insertEmptyCartModal() {
 
 function initEmptyCartModal() {
   $(document).on('click', '#closeEmptyCartModal, #dismissEmptyCartModal', function() {
-    $('#emptyCartModal').addClass('hidden');
-    ModalUtils.unlockScroll();
+    closeEmptyCartModal();
   });
 
   $(document).on('click', '#startShoppingBtn', function() {
-    $('#emptyCartModal').addClass('hidden');
-    ModalUtils.unlockScroll();
-    window.location.href = 'products.php';
+    closeEmptyCartModal();
+    setTimeout(() => {
+      window.location.href = 'products.php';
+    }, 300);
   });
 
   $(document).on('click', '#emptyCartModal', function(e) {
-    if (e.target.id === 'emptyCartModal') {
-      $('#emptyCartModal').addClass('hidden');
-      ModalUtils.unlockScroll();
+    if ($(e.target).is('#emptyCartModal') || $(e.target).hasClass('empty-cart-backdrop')) {
+      closeEmptyCartModal();
     }
   });
 
@@ -89,16 +67,51 @@ function initEmptyCartModal() {
     if (e.key === 'Escape') {
       const $modal = $('#emptyCartModal');
       if ($modal.length && !$modal.hasClass('hidden')) {
-        $modal.addClass('hidden');
-        ModalUtils.unlockScroll();
+        closeEmptyCartModal();
       }
     }
   });
 }
 
 function showEmptyCartModal() {
-  $('#emptyCartModal').removeClass('hidden');
+  const $modal = $('#emptyCartModal');
+  const $backdrop = $('.empty-cart-backdrop');
+  const $card = $('.empty-cart-card');
+  
+  $card.css({
+    transform: 'scale(0.8) translateY(-20px)',
+    opacity: '0'
+  });
+  
+  $modal.removeClass('hidden');
   ModalUtils.lockScroll();
+  
+  requestAnimationFrame(() => {
+    $backdrop.css('opacity', '1');
+    $card.css({
+      transition: 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)',
+      transform: 'scale(1) translateY(0)',
+      opacity: '1'
+    });
+  });
+}
+
+function closeEmptyCartModal() {
+  const $modal = $('#emptyCartModal');
+  const $backdrop = $('.empty-cart-backdrop');
+  const $card = $('.empty-cart-card');
+  
+  $backdrop.css('opacity', '0');
+  $card.css({
+    transition: 'all 0.3s cubic-bezier(0.6, -0.28, 0.74, 0.05)',
+    transform: 'scale(0.8) translateY(-20px)',
+    opacity: '0'
+  });
+  
+  setTimeout(() => {
+    $modal.addClass('hidden');
+    ModalUtils.unlockScroll();
+  }, 300);
 }
 
 $(document).ready(function() {
