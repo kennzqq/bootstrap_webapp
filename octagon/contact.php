@@ -132,7 +132,7 @@
   </nav>
 
 <body class="text-gray-100 px-8 py-5 overflow-x-hidden">
-  <div class="min-h-screen">
+  <div>
     <form id="contactForm" action="https://fabform.io/f/xxxxx" method="post">
       <div
         class="max-w-screen-xl mt-24 px-8 grid gap-8 grid-cols-1 md:grid-cols-2 md:px-12 lg:px-16 xl:px-32 py-16 mx-auto bg-gray-100 text-gray-900 rounded-lg shadow-lg animate-fadeInUp">
