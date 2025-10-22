@@ -80,7 +80,6 @@
 
   <!-- HERO SECTION -->
   <section class="relative min-h-[600px] pt-24 pb-12 px-6 md:px-12 lg:flex lg:items-center lg:justify-center overflow-hidden" style="background-color: #E3E3E3;">
-    <!-- Desktop: absolute positioning on right -->
     <div class="hidden lg:block absolute right-0 bottom-0 w-6/10 h-9/10 pointer-events-auto">
       <spline-viewer url="img/bot.spline" class="w-full h-full"></spline-viewer>
     </div>
