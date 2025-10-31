@@ -50,7 +50,18 @@ function addToCart(product, quantity = 1) {
                     
                     resolve(response);
                 } else {
-                    showNotification('error', response.message || 'Failed to add to cart');
+                    // Check if login is required
+                    if (response.require_login) {
+                        showNotification('error', response.message || 'Please login first');
+                        // Open login modal
+                        setTimeout(() => {
+                            if (typeof openLoginModal === 'function') {
+                                openLoginModal();
+                            }
+                        }, 1000);
+                    } else {
+                        showNotification('error', response.message || 'Failed to add to cart');
+                    }
                     reject(response);
                 }
             },

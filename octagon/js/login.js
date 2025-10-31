@@ -191,22 +191,59 @@
     $('#loginForm').validate({
       rules: {
         email: { required: true, email: true },
-        password: { required: true, minlength: 8 }
+        password: { required: true, minlength: 6 }
       },
       messages: {
         email: { required: 'Please enter your email', email: 'Enter a valid email' },
-        password: { required: 'Please enter your password', minlength: 'At least 8 characters' }
+        password: { required: 'Please enter your password', minlength: 'At least 6 characters' }
       },
       errorElement: 'div',
       errorPlacement: (error, el) => error.addClass('text-red-500 text-sm mt-1').insertAfter(el),
       highlight: el => $(el).addClass('border-red-500'),
       unhighlight: el => $(el).removeClass('border-red-500'),
       submitHandler: function (form) {
-        closeLoginModal();
-        setTimeout(() => {
-          openSuccessModal();
-        }, 300);
-        form.reset();
+        // Get form data
+        const formData = {
+          email: $('#loginEmail').val(),
+          password: $('#loginPassword').val()
+        };
+        
+        // Disable submit button
+        const $submitBtn = $('#loginForm button[type="submit"]');
+        const originalBtnText = $submitBtn.html();
+        $submitBtn.prop('disabled', true).html('<i class="bi bi-hourglass-split animate-spin mr-2"></i>Logging in...');
+        
+        // Send AJAX request to login
+        $.ajax({
+          url: 'ajax/login.php',
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(formData),
+          dataType: 'json',
+          success: function(response) {
+            if (response.success) {
+              closeLoginModal();
+              setTimeout(() => {
+                openSuccessModal();
+                // Store user info
+                window.currentUser = response.user;
+                // Reload page after 2 seconds
+                setTimeout(() => {
+                  location.reload();
+                }, 2000);
+              }, 300);
+              form.reset();
+            } else {
+              alert(response.message || 'Login failed. Please try again.');
+              $submitBtn.prop('disabled', false).html(originalBtnText);
+            }
+          },
+          error: function(xhr, status, error) {
+            console.error('Error logging in:', error);
+            alert('Error logging in. Please try again.');
+            $submitBtn.prop('disabled', false).html(originalBtnText);
+          }
+        });
       }
     });
   }

@@ -191,43 +191,33 @@ const ProductModal = {
       const productName = $('#modalProductName').text();
       const priceText = $('#modalProductPrice').text();
       const price = parseFloat(priceText.replace('$', ''));
+      const category = $('#modalProductCategory').text();
       const quantity = parseInt($('#modalQuantity').val());
       const selectedSize = $('.size-option.border-indigo-600').data('size') || 'Medium';
       
-      const cartItem = {
-        id: Date.now(), 
-        name: productName,
-        price: price,
-        quantity: quantity,
-        size: selectedSize,
-        hasSize: true,
-        image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200'
-      };
-      
-      // Get existing cart from localStorage
-      let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-      
-      // Check if item already exists
-      const existingItemIndex = cart.findIndex(item => 
-        item.name === cartItem.name && item.size === cartItem.size
-      );
-      
-      if (existingItemIndex > -1) {
-        cart[existingItemIndex].quantity += quantity;
+      // Use CartAjax to add to cart
+      if (typeof CartAjax !== 'undefined') {
+        CartAjax.addToCart({
+          name: productName,
+          price: price,
+          category: category,
+          quantity: quantity
+        }).then(response => {
+          console.log('Cart response:', response);
+          
+          this.close();
+          
+          setTimeout(() => {
+            this.showSuccessMessage(productName, quantity, selectedSize);
+          }, 300);
+        }).catch(error => {
+          console.error('Failed to add to cart:', error);
+          alert('Failed to add to cart: ' + error);
+        });
       } else {
-        cart.push(cartItem);
+        console.error('CartAjax not available');
+        alert('Cart system not available. Please refresh the page.');
       }
-      
-      // Save to localStorage
-      localStorage.setItem('cart', JSON.stringify(cart));
-      
-      console.log('Cart updated:', cart);
-      
-      this.close();
-      
-      setTimeout(() => {
-        this.showSuccessMessage(productName, quantity, selectedSize);
-      }, 300);
     });
   },
 

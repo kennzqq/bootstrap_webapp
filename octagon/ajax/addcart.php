@@ -1,6 +1,8 @@
 <?php
 error_reporting(E_ALL);
-ini_set('display_errors', 0); // Don't display errors in output, only log them
+ini_set('display_errors', 1);
+ini_set('log_errors', 1);
+ini_set('error_log', __DIR__ . '/error.log');
 
 require_once 'config.php';
 
@@ -22,6 +24,16 @@ $productPrice = isset($input['price']) ? floatval($input['price']) : 0;
 $productCategory = isset($input['category']) ? trim($input['category']) : '';
 $quantity = isset($input['quantity']) ? intval($input['quantity']) : 1;
 
+// Check if user is logged in
+if (!isset($_SESSION['logged_in']) || $_SESSION['logged_in'] !== true) {
+    echo json_encode([
+        'success' => false,
+        'message' => 'Please login to add items to cart',
+        'require_login' => true
+    ]);
+    exit;
+}
+
 // Validate input
 if (empty($productName) || $productPrice <= 0 || $quantity <= 0) {
     echo json_encode([
@@ -33,6 +45,14 @@ if (empty($productName) || $productPrice <= 0 || $quantity <= 0) {
 
 try {
     $conn = getDBConnection();
+    
+    if (!$conn) {
+        echo json_encode([
+            'success' => false,
+            'message' => 'Failed to connect to database'
+        ]);
+        exit;
+    }
     
     // Get session ID
     $sessionId = $_SESSION['cart_session_id'];
@@ -47,9 +67,10 @@ try {
     $stmt->close();
     
     if (!$product) {
+        $conn->close();
         echo json_encode([
             'success' => false,
-            'message' => 'Product not found in database'
+            'message' => 'Product not found in database. Please make sure the database has products.'
         ]);
         exit;
     }
@@ -76,8 +97,16 @@ try {
     } else {
         // Insert new item
         $stmt = $conn->prepare("INSERT INTO cart (user_id, session_id, product_id, product_name, product_price, product_category, quantity) VALUES (?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("isisdi", $userId, $sessionId, $productId, $productName, $productPrice, $productCategory, $quantity);
-        $stmt->execute();
+        
+        // Debug: log the values
+        error_log("Adding to cart - user_id: $userId, session_id: $sessionId, product_id: $productId, name: $productName, price: $productPrice, category: $productCategory, quantity: $quantity");
+        
+        $stmt->bind_param("isissdi", $userId, $sessionId, $productId, $productName, $productPrice, $productCategory, $quantity);
+        
+        if (!$stmt->execute()) {
+            throw new Exception("Failed to insert cart item: " . $stmt->error);
+        }
+        
         $stmt->close();
         
         $message = 'Product added to cart successfully';
@@ -102,9 +131,20 @@ try {
     ]);
     
 } catch (Exception $e) {
+    if (isset($conn)) {
+        $conn->close();
+    }
     echo json_encode([
         'success' => false,
         'message' => 'Error: ' . $e->getMessage()
+    ]);
+} catch (mysqli_sql_exception $e) {
+    if (isset($conn)) {
+        $conn->close();
+    }
+    echo json_encode([
+        'success' => false,
+        'message' => 'Database error: ' . $e->getMessage()
     ]);
 }
 ?>
