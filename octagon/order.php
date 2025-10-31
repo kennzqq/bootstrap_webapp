@@ -88,15 +88,15 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
-    <script src="./js/form-validation-utils.js"></script>
-    <script src="./js/modal-utils.js"></script>
+    <script src="./js/formvalidation.js"></script>
+    <script src="./js/modalutils.js"></script>
     <script src="./js/login.js"></script>
     <script src="./js/createaccount.js"></script>
     <script src="js/cartModal.js"></script>
-    <script src="js/empty-cart-modal.js"></script>
-    <script src="js/checkout-modal.js"></script>
-    <script src="./js/mobile-menu.js"></script>
-    <script src="js/order-display.js"></script>
+    <script src="js/emptycartmodal.js"></script>
+    <script src="js/checkoutmodal.js"></script>
+    <script src="./js/mobilemenu.js"></script>
+    <script src="js/orderdisplay.js"></script>
     <script>
       $(document).ready(function() {
         insertCartModal();

@@ -150,38 +150,31 @@
  
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
-  <script src="./js/form-validation-utils.js"></script>
-  <script src="./js/modal-utils.js"></script>
+  <script src="./js/formvalidation.js"></script>
+  <script src="./js/modalutils.js"></script>
   <script src="./js/login.js"></script>
   <script src="./js/createaccount.js"></script>
+  <script src="./js/cartajax.js"></script>
   <script src="./js/cartmodal.js"></script>
-  <script src="./js/empty-cart-modal.js"></script>
-  <script src="./js/checkout-modal.js"></script>
-  <script src="./js/product-modal.js"></script>
-  <script src="./js/products-filter.js"></script>
-  <script src="./js/mobile-menu.js"></script>
+  <script src="./js/emptycartmodal.js"></script>
+  <script src="./js/checkoutmodal.js"></script>
+  <script src="./js/productmodal.js"></script>
+  <script src="./js/productsfilter.js"></script>
+  <script src="./js/mobilemenu.js"></script>
   <script>
     $(document).ready(function() {
       insertCartModal();
       
-      // Update cart badge count
+      // Update cart badge count using AJAX
       function updateCartBadge() {
-        const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-        const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
-        $('#cartBadge').text(totalItems);
-        
-        if (totalItems === 0) {
-          $('#cartBadge').addClass('scale-0');
-        } else {
-          $('#cartBadge').removeClass('scale-0').addClass('animate-bounce');
-          setTimeout(() => $('#cartBadge').removeClass('animate-bounce'), 1000);
+        if (typeof window.CartAjax !== 'undefined') {
+          window.CartAjax.updateCartBadge();
         }
       }
       
       updateCartBadge();
       
-      $(window).on('storage', updateCartBadge);
-      
+      // Update badge when cart modal is closed
       $('#cartModal').on('hidden', updateCartBadge);
     });
   </script>

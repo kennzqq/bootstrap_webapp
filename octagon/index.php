@@ -12,6 +12,7 @@
 </head>
 
 <body class="overflow-x-hidden">
+
   <?php include 'components/navbar.php'; ?>
 
   <!-- HERO SECTION -->
@@ -170,12 +171,12 @@
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
-  <script src="js/form-validation-utils.js"></script>
-  <script src="js/modal-utils.js"></script>
+  <script src="js/formvalidation.js"></script>
+  <script src="js/modalutils.js"></script>
   <script src="js/login.js"></script>
   <script src="js/createaccount.js"></script>
   <script src="js/carousel.js"></script>
-  <script src="js/mobile-menu.js"></script>
+  <script src="js/mobilemenu.js"></script>
 
   <script>
     const elements = document.querySelectorAll('.scroll-fade-up, .scroll-fade');

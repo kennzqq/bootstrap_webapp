@@ -218,10 +218,29 @@ $(document).on('click', '.add-to-cart-btn', function() {
     category: $btn.data('category')
   };
   
-  // Open product modal with this product data
-  if (typeof ProductModal !== 'undefined') {
-    ProductModal.open(product);
+  // Disable button temporarily
+  const originalText = $btn.html();
+  $btn.prop('disabled', true).html('<i class="bi bi-hourglass-split animate-spin"></i> Adding...');
+  
+  // Add to cart via AJAX
+  if (typeof window.CartAjax !== 'undefined') {
+    window.CartAjax.addToCart(product, 1)
+      .then(() => {
+        // Success animation
+        $btn.html('<i class="bi bi-check-circle-fill"></i> Added!');
+        setTimeout(() => {
+          $btn.prop('disabled', false).html(originalText);
+        }, 1500);
+      })
+      .catch((error) => {
+        console.error('Failed to add to cart:', error);
+        $btn.html('<i class="bi bi-x-circle-fill"></i> Failed');
+        setTimeout(() => {
+          $btn.prop('disabled', false).html(originalText);
+        }, 1500);
+      });
   } else {
-    console.error('ProductModal is not loaded');
+    console.error('CartAjax is not loaded');
+    $btn.prop('disabled', false).html(originalText);
   }
 });

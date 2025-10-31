@@ -230,11 +230,47 @@
       highlight: el => $(el).addClass('border-red-500'),
       unhighlight: el => $(el).removeClass('border-red-500'),
       submitHandler: function (form) {
-        closeCreateAccountModal();
-        setTimeout(() => {
-          openAccountSuccessModal();
-        }, 300);
-        form.reset();
+        // Get form data
+        const formData = {
+          firstName: $('#firstName').val(),
+          lastName: $('#lastName').val(),
+          email: $('#createAccountEmail').val(),
+          contactNumber: $('#contactNumber').val(),
+          address: $('#address').val(),
+          password: $('#createAccountPassword').val()
+        };
+        
+        // Disable submit button
+        const $submitBtn = $('#createAccountForm button[type="submit"]');
+        const originalBtnText = $submitBtn.html();
+        $submitBtn.prop('disabled', true).html('<i class="bi bi-hourglass-split animate-spin mr-2"></i>Creating Account...');
+        
+        // Send AJAX request to register user
+        $.ajax({
+          url: 'ajax/register.php',
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(formData),
+          dataType: 'json',
+          success: function(response) {
+            if (response.success) {
+              closeCreateAccountModal();
+              setTimeout(() => {
+                openAccountSuccessModal();
+              }, 300);
+              form.reset();
+            } else {
+              // Show error message
+              alert(response.message || 'Failed to create account. Please try again.');
+              $submitBtn.prop('disabled', false).html(originalBtnText);
+            }
+          },
+          error: function(xhr, status, error) {
+            console.error('Error creating account:', error);
+            alert('Error creating account. Please try again.');
+            $submitBtn.prop('disabled', false).html(originalBtnText);
+          }
+        });
       }
     });
   }
