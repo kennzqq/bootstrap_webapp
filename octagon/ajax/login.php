@@ -62,6 +62,8 @@ try {
     // Login successful - set session
     $_SESSION['user_id'] = $user['user_id'];
     $_SESSION['user_email'] = $user['email'];
+    $_SESSION['first_name'] = $user['first_name'];
+    $_SESSION['last_name'] = $user['last_name'];
     $_SESSION['user_name'] = $user['first_name'] . ' ' . $user['last_name'];
     $_SESSION['logged_in'] = true;
     
