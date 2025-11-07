@@ -94,34 +94,25 @@ session_start();
     <script src="./js/formvalidation.js"></script>
     <script src="./js/modalutils.js"></script>
     <script src="./js/login.js"></script>
-    <script src="./js/createaccount.js"></script>
-    <script src="js/cartModal.js"></script>
-    <script src="js/emptycartmodal.js"></script>
-    <script src="js/checkoutmodal.js"></script>
-    <script src="./js/mobilemenu.js"></script>
-    <script src="js/orderdisplay.js"></script>
+  <script src="./js/createaccount.js"></script>
+  <script src="./js/cartajax.js?v=2"></script>
+  <script src="./js/cartmodal.js?v=2"></script>
+  <script src="./js/checkoutmodal.js?v=2"></script>
+  <script src="./js/mobilemenu.js"></script>
+  <script src="./js/orderdisplay.js"></script>
     <script>
       $(document).ready(function() {
         insertCartModal();
         
-        // Update cart badge count
+        // Update cart badge count using AJAX (session/user based)
         function updateCartBadge() {
-          const cart = JSON.parse(localStorage.getItem('cart') || '[]');
-          const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
-          $('#cartBadge').text(totalItems);
-          
-          if (totalItems === 0) {
-            $('#cartBadge').addClass('scale-0');
-          } else {
-            $('#cartBadge').removeClass('scale-0').addClass('animate-bounce');
-            setTimeout(() => $('#cartBadge').removeClass('animate-bounce'), 1000);
+          if (typeof window.CartAjax !== 'undefined') {
+            window.CartAjax.updateCartBadge();
           }
         }
         
         // Initial update
         updateCartBadge();
-        
-        $(window).on('storage', updateCartBadge);
         
         $('#cartModal').on('hidden', updateCartBadge);
       });

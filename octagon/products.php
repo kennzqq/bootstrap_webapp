@@ -157,16 +157,28 @@ session_start();
   <script src="./js/modalutils.js"></script>
   <script src="./js/login.js"></script>
   <script src="./js/createaccount.js"></script>
-  <script src="./js/cartajax.js"></script>
-  <script src="./js/cartmodal.js"></script>
-  <script src="./js/emptycartmodal.js"></script>
-  <script src="./js/checkoutmodal.js"></script>
+  <script src="./js/cartajax.js?v=2"></script>
+  <script src="./js/cartmodal.js?v=2"></script>
+  <script src="./js/checkoutmodal.js?v=2"></script>
   <script src="./js/productmodal.js"></script>
   <script src="./js/productsfilter.js"></script>
   <script src="./js/mobilemenu.js"></script>
   <script>
     $(document).ready(function() {
+      console.log('=== Products.php initialized ===');
+      
       insertCartModal();
+      console.log('Cart modal inserted');
+      
+      // Inject Product Modal
+      if (typeof ProductModal !== 'undefined') {
+        ProductModal.inject();
+        console.log('Product modal injected');
+      }
+      
+      // Check if cart button exists
+      console.log('Cart button exists:', $('#openCartBtn').length > 0);
+      console.log('CartAjax available:', typeof CartAjax !== 'undefined');
       
       // Update cart badge count using AJAX
       function updateCartBadge() {

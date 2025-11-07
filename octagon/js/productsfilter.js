@@ -30,7 +30,11 @@ function displayProducts(products) {
   
   const productsHTML = products.map(product => `
     <div class="flex flex-col border border-gray-300 shadow-sm rounded-md p-1.5 transition-all relative overflow-hidden hover:shadow-lg">
-      <a href="javascript:void(0)" class="block">
+      <!-- Clickable Product Card (opens modal) -->
+      <div class="product-card-link cursor-pointer" 
+         data-name="${product.name}" 
+         data-price="${product.price}" 
+         data-category="${product.category}">
         <div class="w-full bg-slate-50">
           <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&h=400&fit=crop" 
                alt="${product.name}" 
@@ -49,15 +53,17 @@ function displayProducts(products) {
             </p>
           </div>
         </div>
-      </a>
-      <div class="h-[78px]">
-        <div class="flex flex-col items-center w-full absolute left-0 right-0 px-2 bottom-3">
+      </div>
+      
+      <!-- Action Buttons (outside clickable area) -->
+      <div class="h-[78px] relative z-10">
+        <div class="flex flex-col items-center w-full px-2 mt-2">
           <button type="button"
-            class="add-to-cart-btn flex items-center justify-center gap-2 px-2 py-2 cursor-pointer rounded-md text-white text-sm sm:text-[15px] font-medium whitespace-nowrap border-0 outline-0 w-full bg-purple-700 hover:bg-purple-800 transition-all"
+            class="quick-add-btn flex items-center justify-center gap-2 px-2 py-2 cursor-pointer rounded-md text-white text-sm sm:text-[15px] font-medium whitespace-nowrap border-0 outline-0 w-full bg-purple-700 hover:bg-purple-800 transition-all"
             data-name="${product.name}"
             data-price="${product.price}"
             data-category="${product.category}">
-            Add to Cart
+            Quick Add
           </button>
           <button type="button" class="pb-0.5 pt-3 cursor-pointer text-sm sm:text-[15px] text-slate-900 font-medium whitespace-nowrap outline-0 flex items-center gap-2 hover:text-purple-700 transition-colors">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" width="16px" height="16px" viewBox="0 0 66 66">
@@ -209,8 +215,26 @@ $(document).ready(function() {
   });
 });
 
-// Event delegation for Add to Cart buttons
-$(document).on('click', '.add-to-cart-btn', function() {
+// Event delegation for product card clicks - Open Product Modal
+$(document).on('click', '.product-card-link', function(e) {
+  e.preventDefault();
+  const product = {
+    name: $(this).data('name'),
+    price: parseFloat($(this).data('price')),
+    category: $(this).data('category')
+  };
+  
+  // Open product modal with size/quantity selection
+  if (typeof ProductModal !== 'undefined') {
+    ProductModal.open(product);
+  } else {
+    console.error('ProductModal not loaded');
+  }
+});
+
+// Event delegation for Quick Add buttons - Direct add to cart
+$(document).on('click', '.quick-add-btn', function(e) {
+  e.stopPropagation(); // Prevent opening product modal
   const $btn = $(this);
   const product = {
     name: $btn.data('name'),

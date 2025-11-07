@@ -196,6 +196,8 @@ function showNotification(type, message) {
 
 // Initialize cart on page load
 $(document).ready(function() {
+    // Remove any legacy localStorage cart to avoid conflicts with DB-backed cart
+    try { localStorage.removeItem('cart'); } catch (e) {}
     updateCartBadge();
 });
 

@@ -107,26 +107,26 @@ const CartModal = {
 function insertCartModal() {
   $('body').append(CartModal.getHTML());
   initCartModal();
+  console.log('CartModal inserted and initialized');
+  console.log('openCartBtn exists:', $('#openCartBtn').length);
 }
 
 function initCartModal() {
   $('#openCartBtn').on('click', function() {
-    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    console.log('Cart button clicked!'); // Debug
     
-    if (cart.length > 0) {
-      renderCartItems(cart);
-    } else {
-      $('#cartItemsContainer').html(`
-        <div class="text-center py-8">
-          <p class="text-gray-500 text-lg">Your cart is empty</p>
-          <p class="text-gray-400 text-sm mt-2">Add some products to get started!</p>
-        </div>
-      `);
-    }
-    
+    // Open modal immediately with loading state
     const $modal = $('#cartModal');
     const $backdrop = $('.cart-backdrop');
     const $card = $('.cart-card');
+    
+    // Show loading indicator
+    $('#cartItemsContainer').html(`
+      <div class="text-center py-12">
+        <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <p class="text-gray-500 mt-4">Loading cart...</p>
+      </div>
+    `);
     
     $card.css({
       transform: 'scale(0.8) translateY(-20px)',
@@ -145,7 +145,54 @@ function initCartModal() {
       });
     });
     
-    updateCartTotal();
+    // Load cart items from database using AJAX
+    if (typeof CartAjax !== 'undefined' && typeof CartAjax.getCartItems === 'function') {
+      console.log('Loading cart items...'); // Debug
+      CartAjax.getCartItems()
+        .then(items => {
+          console.log('Cart items loaded:', items); // Debug
+          if (items && items.length > 0) {
+            // Convert database format to cart modal format
+            const formattedItems = items.map(item => ({
+              id: item.cart_id,
+              cart_id: item.cart_id,
+              product_id: item.product_id,
+              name: item.name,
+              price: item.price,
+              category: item.category,
+              quantity: item.quantity,
+              image: 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=200',
+              hasSize: false
+            }));
+            renderCartItems(formattedItems);
+            updateCartTotal();
+          } else {
+            $('#cartItemsContainer').html(`
+              <div class="text-center py-8">
+                <p class="text-gray-500 text-lg">Your cart is empty</p>
+                <p class="text-gray-400 text-sm mt-2">Add some products to get started!</p>
+              </div>
+            `);
+          }
+        })
+        .catch(error => {
+          console.error('Failed to load cart:', error);
+          $('#cartItemsContainer').html(`
+            <div class="text-center py-8">
+              <p class="text-red-500 text-lg">Failed to load cart</p>
+              <p class="text-gray-400 text-sm mt-2">Please refresh the page</p>
+            </div>
+          `);
+        });
+    } else {
+      console.error('CartAjax not available');
+      $('#cartItemsContainer').html(`
+        <div class="text-center py-8">
+          <p class="text-red-500 text-lg">Cart system unavailable</p>
+          <p class="text-gray-400 text-sm mt-2">Please refresh the page</p>
+        </div>
+      `);
+    }
   });
 
   $('#closeCartModal').on('click', function() {
@@ -177,40 +224,67 @@ function initCartModal() {
 
     if ($target.hasClass('increment-qty')) {
       const $item = $target.closest('.cart-item');
-      const itemId = $item.data('item-id');
+      const cartId = $item.data('item-id');
       const $qtySpan = $item.find('.item-quantity');
       let qty = parseInt($qtySpan.text());
       qty++;
-      $qtySpan.text(qty);
-      updateItemPrice($item);
-      updateCartTotal();
-      updateLocalStorage(itemId, 'quantity', qty);
+      
+      // Update database
+      if (typeof CartAjax !== 'undefined') {
+        CartAjax.updateCartQuantity(cartId, qty)
+          .then(() => {
+            $qtySpan.text(qty);
+            updateItemPrice($item);
+            updateCartTotal();
+          })
+          .catch(error => {
+            console.error('Failed to update quantity:', error);
+          });
+      }
     }
 
     if ($target.hasClass('decrement-qty')) {
       const $item = $target.closest('.cart-item');
-      const itemId = $item.data('item-id');
+      const cartId = $item.data('item-id');
       const $qtySpan = $item.find('.item-quantity');
       let qty = parseInt($qtySpan.text());
       if (qty > 1) {
         qty--;
-        $qtySpan.text(qty);
-        updateItemPrice($item);
-        updateCartTotal();
-        updateLocalStorage(itemId, 'quantity', qty);
+        
+        // Update database
+        if (typeof CartAjax !== 'undefined') {
+          CartAjax.updateCartQuantity(cartId, qty)
+            .then(() => {
+              $qtySpan.text(qty);
+              updateItemPrice($item);
+              updateCartTotal();
+            })
+            .catch(error => {
+              console.error('Failed to update quantity:', error);
+            });
+        }
       }
     }
 
     if ($target.hasClass('remove-item')) {
       const $item = $target.closest('.cart-item');
-      const itemId = $item.data('item-id');
-      $item.css({opacity: '0', transition: 'opacity 0.3s'});
-      setTimeout(() => {
-        $item.remove();
-        updateCartTotal();
-        checkEmptyCart();
-        removeFromLocalStorage(itemId);
-      }, 300);
+      const cartId = $item.data('item-id');
+      
+      // Remove from database
+      if (typeof CartAjax !== 'undefined') {
+        CartAjax.removeFromCart(cartId)
+          .then(() => {
+            $item.css({opacity: '0', transition: 'opacity 0.3s'});
+            setTimeout(() => {
+              $item.remove();
+              updateCartTotal();
+              checkEmptyCart();
+            }, 300);
+          })
+          .catch(error => {
+            console.error('Failed to remove item:', error);
+          });
+      }
     }
 
     if ($target.hasClass('size-option')) {
@@ -331,22 +405,32 @@ function updateCartTotal() {
 
 function checkEmptyCart() {
   if ($('.cart-item').length === 0) {
-    renderCartItems([]);
+    $('#cartItemsContainer').html(`
+      <div class="text-center py-8">
+        <p class="text-gray-500 text-lg">Your cart is empty</p>
+        <p class="text-gray-400 text-sm mt-2">Add some products to get started!</p>
+      </div>
+    `);
   }
 }
 
-function updateLocalStorage(itemId, property, value) {
-  let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-  const itemIndex = cart.findIndex(item => item.id == itemId);
-  
-  if (itemIndex > -1) {
-    cart[itemIndex][property] = value;
-    localStorage.setItem('cart', JSON.stringify(cart));
+// Export for debugging
+window.CartModalDebug = {
+  testLoadCart: function() {
+    console.log('=== Testing Cart Load ===');
+    if (typeof CartAjax !== 'undefined' && typeof CartAjax.getCartItems === 'function') {
+      CartAjax.getCartItems()
+        .then(items => {
+          console.log('Cart items loaded:', items);
+        })
+        .catch(error => {
+          console.error('Failed to load cart:', error);
+        });
+    } else {
+      console.error('CartAjax not available');
+    }
+  },
+  openCart: function() {
+    $('#openCartBtn').click();
   }
-}
-
-function removeFromLocalStorage(itemId) {
-  let cart = JSON.parse(localStorage.getItem('cart') || '[]');
-  cart = cart.filter(item => item.id != itemId);
-  localStorage.setItem('cart', JSON.stringify(cart));
-}
+};

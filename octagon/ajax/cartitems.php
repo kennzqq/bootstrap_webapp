@@ -6,12 +6,18 @@ header('Content-Type: application/json');
 try {
     $conn = getDBConnection();
     
-    // Get session ID
-    $sessionId = $_SESSION['cart_session_id'];
+    // Get session and user context
+    $sessionId = isset($_SESSION['cart_session_id']) ? $_SESSION['cart_session_id'] : session_id();
+    $userId = isset($_SESSION['user_id']) ? intval($_SESSION['user_id']) : null;
     
-    // Get all cart items
-    $stmt = $conn->prepare("SELECT cart_id, product_id, product_name, product_price, product_category, quantity FROM cart WHERE session_id = ? ORDER BY added_at DESC");
-    $stmt->bind_param("s", $sessionId);
+    // Get all cart items for this user/session
+    if ($userId) {
+        $stmt = $conn->prepare("SELECT cart_id, product_id, product_name, product_price, product_category, quantity FROM cart WHERE (user_id = ? OR session_id = ?) ORDER BY added_at DESC");
+        $stmt->bind_param("is", $userId, $sessionId);
+    } else {
+        $stmt = $conn->prepare("SELECT cart_id, product_id, product_name, product_price, product_category, quantity FROM cart WHERE session_id = ? ORDER BY added_at DESC");
+        $stmt->bind_param("s", $sessionId);
+    }
     $stmt->execute();
     $result = $stmt->get_result();
     
